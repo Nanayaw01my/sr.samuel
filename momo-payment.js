@@ -7,7 +7,7 @@
 // Paystack Configuration
 const PAYSTACK_CONFIG = {
     // 🔴 REPLACE WITH YOUR ACTUAL LIVE KEY
-    LIVE_KEY: 'pk_live_8d8b9e8c6d9c4b2a1f3d5e7a9c0b2a4f6e8d1a3c', // Replace with your key
+    LIVE_KEY: '', // Replace with your key
     TEST_KEY: 'pk_test_8d8b9e8c6d9c4b2a1f3d5e7a9c0b2a4f6e8d1a3c', // Test key for development
     
     // Set to false for live, true for test mode
