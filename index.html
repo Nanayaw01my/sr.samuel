@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+<title>Sr. Samuel Data · Home</title>
+<!-- Font Awesome 6 (free) for icons & network logos placeholder -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+body {
+background-color: #f5f7fa; /* light gray background */
+min-height: 100vh;
+display: flex;
+flex-direction: column;
+align-items: center;
+padding: 16px 12px 32px;
+}
+
+/* main app card (mobile / desktop container) */
+.app-container {
+max-width: 480px; /* like a mobile app card on desktop */
+width: 100%;
+background-color: white;
+border-radius: 38px 38px 32px 32px;
+box-shadow: 0 20px 35px -8px rgba(0, 40, 60, 0.25);
+overflow: hidden;
+border: 1px solid rgba(0, 128, 128, 0.1);
+transition: all 0.2s;
+}
+
+/* header area – navy + teal details */
+.brand-header {
+background-color: #0A2342; /* navy blue */
+padding: 24px 24px 20px;
+color: white;
+border-bottom: 4px solid #2A9D8F; /* teal accent */
+}
+
+.business-name {
+font-size: 1.9rem;
+font-weight: 700;
+letter-spacing: -0.5px;
+line-height: 1.2;
+}
+
+.business-name span {
+color: #E9F1F7; /* very light grayish */
+font-weight: 400;
+font-size: 1rem;
+display: block;
+margin-top: 6px;
+opacity: 0.85;
+}
+
+.contact-row {
+display: flex;
+flex-wrap: wrap;
+gap: 16px 24px;
+margin-top: 16px;
+background: rgba(255,255,255,0.08);
+padding: 12px 14px;
+border-radius: 60px;
+backdrop-filter: blur(2px);
+border: 1px solid rgba(42, 157, 143, 0.4);
+}
+
+.contact-item {
+display: flex;
+align-items: center;
+gap: 8px;
+font-size: 1.05rem;
+font-weight: 500;
+}
+
+.contact-item i {
+color: #2A9D8F; /* teal */
+width: 22px;
+font-size: 1.2rem;
+}
+
+.contact-item a {
+color: white;
+text-decoration: none;
+background: #0f2e4a;
+padding: 4px 10px;
+border-radius: 40px;
+transition: 0.15s;
+border: 1px solid #2A9D8F;
+}
+
+.contact-item a:hover {
+background: #1e4f6e;
+}
+
+/* navbar with three network buttons (no dropdown) */
+.network-nav {
+background-color: #E9F1F7; /* light gray */
+padding: 16px 20px;
+display: flex;
+justify-content: space-around;
+gap: 8px;
+border-bottom: 1px solid #cbd5e0;
+flex-wrap: wrap;
+}
+
+.net-btn {
+background: white;
+border: none;
+border-radius: 100px;
+padding: 10px 18px;
+font-weight: 600;
+font-size: 1rem;
+display: inline-flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+box-shadow: 0 6px 12px rgba(10, 35, 66, 0.08);
+cursor: pointer;
+transition: 0.15s ease;
+border: 1px solid transparent;
+flex: 1 1 auto;
+min-width: 110px;
+color: #0A2342;
+}
+
+.net-btn i, .net-btn img {
+width: 22px;
+height: 22px;
+font-size: 1.3rem; /* for fallback icons */
+}
+
+.net-btn img {
+object-fit: contain;
+border-radius: 6px;
+}
+
+.net-btn:hover {
+transform: scale(1.02);
+border-color: #2A9D8F;
+background-color: #f0fafc;
+}
+
+/* active state for demonstration (optional) */
+.net-btn.active {
+background-color: #2A9D8F;
+color: white;
+border-color: #0A2342;
+}
+.net-btn.active img {
+filter: brightness(0) invert(1);
+}
+
+/* main cards section */
+.cards-section {
+padding: 24px 20px 20px;
+background: white;
+}
+
+.section-title {
+font-size: 1.3rem;
+font-weight: 600;
+color: #0A2342;
+margin-bottom: 18px;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+.section-title i {
+color: #2A9D8F;
+}
+
+.network-cards {
+display: flex;
+flex-direction: column;
+gap: 18px;
+}
+
+/* individual card */
+.card-provider {
+background: #f9fcff;
+border-radius: 28px;
+border: 1px solid #dde7f0;
+padding: 20px 18px;
+display: flex;
+align-items: center;
+gap: 16px;
+transition: 0.2s;
+box-shadow: 0 6px 10px rgba(0,0,0,0.02);
+cursor: pointer;
+}
+
+.card-provider:hover {
+border-color: #2A9D8F;
+box-shadow: 0 14px 22px -10px rgba(42, 157, 143, 0.2);
+background: white;
+}
+
+.logo-area {
+width: 64px;
+height: 64px;
+background: white;
+border-radius: 18px;
+display: flex;
+align-items: center;
+justify-content: center;
+border: 2px solid #0A2342;
+padding: 6px;
+box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.logo-area img {
+width: 100%;
+height: 100%;
+object-fit: contain;
+}
+
+.logo-area i {
+font-size: 2.5rem;
+color: #0A2342;
+}
+
+.card-info {
+flex: 1;
+}
+
+.card-info h3 {
+font-size: 1.6rem;
+font-weight: 700;
+color: #0A2342;
+line-height: 1.2;
+margin-bottom: 4px;
+}
+
+.card-info p {
+color: #3a546d;
+font-weight: 500;
+font-size: 0.95rem;
+display: flex;
+align-items: center;
+gap: 6px;
+}
+
+.card-info p i {
+color: #2A9D8F;
+font-size: 0.8rem;
+}
+
+.arrow-icon {
+color: #2A9D8F;
+font-size: 1.5rem;
+opacity: 0.7;
+transition: 0.2s;
+}
+
+.card-provider:hover .arrow-icon {
+opacity: 1;
+transform: translateX(4px);
+}
+
+/* purchase procedure section */
+.procedure-box {
+background: #E9F1F7; /* light gray */
+margin: 24px 20px 30px;
+padding: 22px 18px;
+border-radius: 34px;
+border-left: 6px solid #2A9D8F;
+border-right: 1px solid #c0d0df;
+}
+
+.procedure-box h4 {
+font-size: 1.3rem;
+color: #0A2342;
+display: flex;
+align-items: center;
+gap: 10px;
+margin-bottom: 16px;
+}
+
+.procedure-box h4 i {
+color: #2A9D8F;
+background: #0A2342;
+padding: 6px;
+border-radius: 50%;
+color: white;
+}
+
+.steps {
+display: flex;
+flex-direction: column;
+gap: 18px;
+}
+
+.step-item {
+display: flex;
+align-items: flex-start;
+gap: 14px;
+}
+
+.step-num {
+background: #0A2342;
+color: white;
+width: 32px;
+height: 32px;
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+font-weight: 700;
+font-size: 1.1rem;
+flex-shrink: 0;
+border: 2px solid #2A9D8F;
+}
+
+.step-text {
+color: #1a2e44;
+font-size: 1rem;
+font-weight: 500;
+padding-top: 4px;
+}
+
+.step-text strong {
+color: #0A2342;
+font-weight: 700;
+}
+
+.callout {
+margin-top: 22px;
+background: white;
+border-radius: 24px;
+padding: 14px 18px;
+display: flex;
+align-items: center;
+gap: 14px;
+border: 1px dashed #2A9D8F;
+}
+
+.callout i {
+font-size: 2rem;
+color: #0A2342;
+}
+
+.callout p {
+font-size: 1rem;
+font-weight: 500;
+}
+.callout a {
+color: #2A9D8F;
+font-weight: 700;
+text-decoration: none;
+border-bottom: 2px solid;
+}
+
+/* small footer */
+.footer-note {
+text-align: center;
+color: #6b7f94;
+font-size: 0.85rem;
+margin: 12px 0 8px;
+}
+
+/* desktop adjustment: container bigger but still card like */
+@media (min-width: 600px) {
+.app-container {
+max-width: 700px;
+border-radius: 48px;
+}
+.network-cards {
+flex-direction: row;
+flex-wrap: wrap;
+justify-content: center;
+}
+.card-provider {
+flex: 1 1 180px;
+flex-direction: column;
+text-align: center;
+padding: 22px 12px;
+}
+.logo-area {
+width: 80px;
+height: 80px;
+}
+.arrow-icon {
+transform: rotate(90deg);
+}
+.card-provider:hover .arrow-icon {
+transform: rotate(90deg) translateX(4px);
+}
+.brand-header {
+padding: 30px 30px 20px;
+}
+}
+
+/* checker card specific styling */
+.checker-card .logo-area {
+background: #2A9D8F;
+border-color: #0A2342;
+}
+
+.checker-card .logo-area i {
+color: white;
+}
+
+.checker-card h3 {
+color: #2A9D8F;
+}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+<!-- HEADER (business info) -->
+<div class="brand-header">
+<div class="business-name">
+Sr. Samuel Data
+<span>fast & reliable bundles</span>
+</div>
+<div class="contact-row">
+<div class="contact-item">
+<i class="fas fa-phone-alt"></i>
+<a href="tel:0547035105">0547035105</a>
+</div>
+<div class="contact-item">
+<i class="fab fa-whatsapp"></i>
+<a href="https://wa.me/233547035105" target="_blank">WhatsApp</a>
+</div>
+</div>
+</div>
+
+<!-- NAV BAR with MTN, AIRTELTIGO, TELECEL (image buttons) -->
+<div class="network-nav">
+<button class="net-btn" id="mtnNavBtn">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCQxaZDaxPIHpTsMxtjtkepJHnbbPQki9wPw&s"
+alt="MTN" style="width:22px; height:22px;"> MTN
+</button>
+<button class="net-btn" id="airtelNavBtn">
+<img src="https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_airteltigo_product_card.png"
+alt="AirtelTigo" style="width:22px; height:22px;"> AirtelTigo
+</button>
+<button class="net-btn" id="telecelNavBtn">
+<img src="https://telecelgroup.com/wp-content/uploads/2023/11/TG-LOGOO-03_400.png.webp"
+alt="Telecel" style="width:22px; height:22px;"> Telecel
+</button>
+</div>
+
+<!-- CARDS for MTN, AirtelTigo, Telecel, and Checker -->
+<div class="cards-section">
+<div class="section-title">
+<i class="fas fa-wifi"></i> select network
+</div>
+<div class="network-cards">
+<!-- MTN card with data-link pointing to mtn-bundles.html -->
+<div class="card-provider" id="mtnCard" data-link="mtn-bundles.html">
+<div class="logo-area">
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTCQxaZDaxPIHpTsMxtjtkepJHnbbPQki9wPw&s"
+alt="MTN logo">
+</div>
+<div class="card-info">
+<h3>MTN</h3>
+<p><i class="fas fa-circle-check"></i> data & calls</p>
+</div>
+<div class="arrow-icon">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+<!-- AirtelTigo card with data-link pointing to airteltigo-bundles.html -->
+<div class="card-provider" id="airtelCard" data-link="airteltigo-bundles.html">
+<div class="logo-area">
+<img src="https://recharge-prd.asset.akeneo.cloud/product_assets/media/recharge_com_airteltigo_product_card.png"
+alt="AirtelTigo logo">
+</div>
+<div class="card-info">
+<h3>AirtelTigo</h3>
+<p><i class="fas fa-circle-check"></i> 4G bundles</p>
+</div>
+<div class="arrow-icon">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+<!-- Telecel card with data-link pointing to telecel-bundles.html -->
+<div class="card-provider" id="telecelCard" data-link="telecel-bundles.html">
+<div class="logo-area">
+<img src="https://telecelgroup.com/wp-content/uploads/2023/11/TG-LOGOO-03_400.png.webp"
+alt="Telecel logo">
+</div>
+<div class="card-info">
+<h3>Telecel</h3>
+<p><i class="fas fa-circle-check"></i> voice & SMS</p>
+</div>
+<div class="arrow-icon">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+<!-- BECE/WASSCE Checker card with data-link pointing to checker.html -->
+<div class="card-provider checker-card" id="checkerCard" data-link="checker.html">
+<div class="logo-area">
+<!-- Using a placeholder icon until WASSCE logo is added -->
+<i class="fas fa-graduation-cap"></i>
+</div>
+<div class="card-info">
+<h3>BECE / WASSCE</h3>
+<p><i class="fas fa-circle-check"></i> check results</p>
+</div>
+<div class="arrow-icon">
+<i class="fas fa-chevron-right"></i>
+</div>
+</div>
+</div>
+</div>
+
+<!-- PURCHASE PROCEDURES (how to order) -->
+<div class="procedure-box">
+<h4><i class="fas fa-cart-shopping"></i> How to purchase</h4>
+<div class="steps">
+<div class="step-item">
+<div class="step-num">1</div>
+<div class="step-text"><strong>Choose a network</strong> above — MTN, AirtelTigo or Telecel</div>
+</div>
+<div class="step-item">
+<div class="step-num">2</div>
+<div class="step-text">Tap on the card, or <strong>call/WhatsApp</strong> 0547035105</div>
+</div>
+<div class="step-item">
+<div class="step-num">3</div>
+<div class="step-text">Tell me the bundle type, amount &amp; your phone number.</div>
+</div>
+<div class="step-item">
+<div class="step-num">4</div>
+<div class="step-text">Make payment via <strong>mobile money</strong> or cash. I’ll credit you instantly.</div>
+</div>
+</div>
+<div class="callout">
+<i class="fab fa-whatsapp"></i>
+<p>Prefer WhatsApp? <a href="https://wa.me/233547035105">Tap to chat</a> • 0547035105</p>
+</div>
+</div>
+
+<!-- small footer note -->
+<div class="footer-note">
+Sr. Samuel Data – 24/7 fast delivery
+</div>
+</div>
+
+<!-- simple js to handle card clicks and button simulation -->
+<script>
+(function() {
+// get cards
+const mtnCard = document.getElementById('mtnCard');
+const airtelCard = document.getElementById('airtelCard');
+const telecelCard = document.getElementById('telecelCard');
+const checkerCard = document.getElementById('checkerCard');
+
+function openNetworkLink(cardElement, networkName) {
+// If data-link attribute is set, redirect to that link
+const customLink = cardElement.getAttribute('data-link');
+if (customLink && customLink.trim() !== '') {
+window.location.href = customLink;
+} else {
+// demo action: alert if no link is set
+alert(`🔗 ${networkName} page — please add the link in data-link attribute.\n(Example: set data-link="mtn-bundles.html")`);
+}
+}
+
+mtnCard.addEventListener('click', (e) => {
+openNetworkLink(mtnCard, 'MTN');
+});
+airtelCard.addEventListener('click', (e) => {
+openNetworkLink(airtelCard, 'AirtelTigo');
+});
+telecelCard.addEventListener('click', (e) => {
+openNetworkLink(telecelCard, 'Telecel');
+});
+checkerCard.addEventListener('click', (e) => {
+openNetworkLink(checkerCard, 'BECE/WASSCE Checker');
+});
+
+// also nav buttons can scroll to cards or show info
+document.getElementById('mtnNavBtn').addEventListener('click', () => {
+mtnCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+mtnCard.style.backgroundColor = '#e0f2f0';
+setTimeout(() => mtnCard.style.backgroundColor = '', 400);
+});
+document.getElementById('airtelNavBtn').addEventListener('click', () => {
+airtelCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+airtelCard.style.backgroundColor = '#e0f2f0';
+setTimeout(() => airtelCard.style.backgroundColor = '', 400);
+});
+document.getElementById('telecelNavBtn').addEventListener('click', () => {
+telecelCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+telecelCard.style.backgroundColor = '#e0f2f0';
+setTimeout(() => telecelCard.style.backgroundColor = '', 400);
+});
+
+})();
+</script>
+</body>
+</html>

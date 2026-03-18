@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>Telecel bundles · Sr. Samuel Data</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Paystack inline script -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 32px;
+    }
+
+    .app-container {
+      max-width: 480px;
+      width: 100%;
+      background-color: white;
+      border-radius: 38px 38px 32px 32px;
+      box-shadow: 0 20px 35px -8px rgba(0, 40, 60, 0.25);
+      overflow: hidden;
+      border: 1px solid rgba(0, 128, 128, 0.1);
+    }
+
+    /* header – navy + teal */
+    .brand-header {
+      background-color: #0A2342;
+      padding: 20px 24px 16px;
+      color: white;
+      border-bottom: 4px solid #2A9D8F;
+    }
+
+    .business-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .business-name span {
+      color: #E9F1F7;
+      font-weight: 400;
+      font-size: 1rem;
+      display: block;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .back-nav {
+      margin-bottom: 12px;
+    }
+
+    .back-link {
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.1);
+      padding: 6px 16px 6px 12px;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      border: 1px solid #2A9D8F;
+      transition: 0.15s;
+    }
+
+    .back-link i {
+      color: #2A9D8F;
+    }
+
+    .back-link:hover {
+      background: #1e4f6e;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.08);
+      padding: 10px 14px;
+      border-radius: 60px;
+      border: 1px solid rgba(42, 157, 143, 0.4);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .contact-item i {
+      color: #2A9D8F;
+      width: 22px;
+      font-size: 1.2rem;
+    }
+
+    .contact-item a {
+      color: white;
+      text-decoration: none;
+      background: #0f2e4a;
+      padding: 4px 10px;
+      border-radius: 40px;
+      border: 1px solid #2A9D8F;
+    }
+
+    /* tabs: data bundles / airtime */
+    .tab-bar {
+      background: #E9F1F7;
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid #cbd5e0;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: white;
+      border: none;
+      border-radius: 60px;
+      padding: 12px 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #0A2342;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(10,35,66,0.1);
+      border: 1px solid transparent;
+      transition: 0.15s;
+    }
+
+    .tab-btn i {
+      color: #2A9D8F;
+    }
+
+    .tab-btn.active {
+      background: #2A9D8F;
+      color: white;
+      border-color: #0A2342;
+    }
+    .tab-btn.active i {
+      color: white;
+    }
+
+    /* main content panels */
+    .panel {
+      display: none;
+      padding: 24px 20px 28px;
+      background: white;
+    }
+
+    .panel.active-panel {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0A2342;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title i {
+      color: #2A9D8F;
+    }
+
+    /* data bundles grid - card grid layout */
+    .bundle-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    /* individual bundle card */
+    .bundle-card {
+      background: #f9fcff;
+      border-radius: 20px;
+      border: 1px solid #dde7f0;
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: 0.2s;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+
+    .bundle-card:hover {
+      border-color: #2A9D8F;
+      box-shadow: 0 10px 20px -8px rgba(42, 157, 143, 0.3);
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .bundle-icon {
+      background: #0A2342;
+      color: white;
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border: 2px solid #2A9D8F;
+      margin-bottom: 12px;
+    }
+
+    .bundle-info h4 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0A2342;
+      line-height: 1.2;
+      margin-bottom: 4px;
+    }
+
+    .bundle-info p {
+      color: #2A9D8F;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .bundle-info p small {
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: #3a546d;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .validity-badge {
+      background: #E9F1F7;
+      color: #0A2342;
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 4px 8px;
+      border-radius: 30px;
+      display: inline-block;
+      border: 1px solid #2A9D8F;
+    }
+
+    /* phone input modal for bundle purchase */
+    .bundle-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .bundle-modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px 24px;
+      border-radius: 38px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow: 0 20px 35px -8px rgba(0, 40, 60, 0.25);
+      border: 2px solid #2A9D8F;
+    }
+
+    .modal-content h3 {
+      color: #0A2342;
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-content h3 i {
+      color: #2A9D8F;
+    }
+
+    .modal-content p {
+      color: #3a546d;
+      margin-bottom: 20px;
+    }
+
+    .modal-close {
+      float: right;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #0A2342;
+    }
+
+    .modal-close:hover {
+      color: #2A9D8F;
+    }
+
+    /* network selector in modal */
+    .network-selector {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .network-option {
+      flex: 1;
+      min-width: 80px;
+      background: #f0f7fc;
+      border: 2px solid #dde7f0;
+      border-radius: 50px;
+      padding: 10px 5px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .network-option.selected {
+      border-color: #2A9D8F;
+      background: #e0f2f0;
+    }
+
+    .network-option img {
+      width: 30px;
+      height: 30px;
+      object-fit: contain;
+    }
+
+    .network-option i {
+      font-size: 1.5rem;
+      color: #0A2342;
+    }
+
+    .network-option span {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0A2342;
+    }
+
+    /* airtime card */
+    .airtime-card {
+      background: #f0f7fc;
+      border-radius: 32px;
+      padding: 24px 20px;
+      border: 1px solid #cbd5e0;
+      margin-bottom: 24px;
+    }
+
+    .input-group {
+      margin-bottom: 22px;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      color: #0A2342;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .input-group label i {
+      color: #2A9D8F;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 16px 18px;
+      border: 2px solid #dde7f0;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: 0.15s;
+      background: white;
+    }
+    .input-field:focus {
+      border-color: #2A9D8F;
+    }
+
+    .network-badge {
+      background: #2A9D8F;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 60px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .pay-btn {
+      background: #0A2342;
+      width: 100%;
+      border: none;
+      color: white;
+      padding: 18px 20px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      border: 2px solid #2A9D8F;
+      transition: 0.15s;
+      margin-top: 10px;
+    }
+
+    .pay-btn i {
+      color: #2A9D8F;
+    }
+
+    .pay-btn:hover {
+      background: #1e4f6e;
+      transform: scale(1.02);
+    }
+
+    .info-note {
+      font-size: 0.9rem;
+      color: #3a546d;
+      margin-top: 16px;
+      text-align: center;
+      border-top: 1px dashed #2A9D8F;
+      padding-top: 16px;
+    }
+
+    .info-note i {
+      color: #2A9D8F;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #6b7f94;
+      font-size: 0.85rem;
+      margin: 10px 0 8px;
+    }
+
+    /* small utility */
+    .network-label {
+      background: #2A9D8F;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    /* desktop adjustment for larger screens */
+    @media (min-width: 600px) {
+      .app-container {
+        max-width: 700px;
+      }
+      
+      .bundle-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .bundle-card {
+        padding: 14px 8px;
+      }
+      
+      .bundle-info h4 {
+        font-size: 1.2rem;
+      }
+      
+      .bundle-info p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- header with back navigation -->
+  <div class="brand-header">
+    <div class="back-nav">
+      <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> back to networks</a>
+    </div>
+    <div class="business-name">
+      Telecel bundles
+      <span>data & airtime · instant</span>
+    </div>
+    <div class="contact-row">
+      <div class="contact-item">
+        <i class="fas fa-phone-alt"></i>
+        <a href="tel:0547035105">0547035105</a>
+      </div>
+      <div class="contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <a href="https://wa.me/233547035105" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabs: Data bundles / Airtime -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabDataBtn"><i class="fas fa-wifi"></i> Data bundles</button>
+    <button class="tab-btn" id="tabAirtimeBtn"><i class="fas fa-phone-alt"></i> Airtime</button>
+  </div>
+
+  <!-- DATA BUNDLES PANEL (1GB – 20GB) -->
+  <div id="dataPanel" class="panel active-panel">
+    <div class="section-title">
+      <i class="fas fa-layer-group"></i> Telecel data packages
+      <span class="network-label">1GB to 20GB</span>
+    </div>
+    <div class="bundle-grid" id="bundleList">
+      <!-- dynamically generated via JS -->
+    </div>
+    <div class="info-note">
+      <i class="fas fa-info-circle"></i> Click any bundle to purchase via MoMo. You'll receive the data instantly after payment.
+    </div>
+  </div>
+
+  <!-- AIRTIME PANEL (All Networks) -->
+  <div id="airtimePanel" class="panel">
+    <div class="section-title">
+      <i class="fas fa-sim-card"></i> Buy Airtime
+    </div>
+    
+    <div class="airtime-card">
+      <div class="input-group">
+        <label><i class="fas fa-mobile-alt"></i> Phone number</label>
+        <input type="tel" id="phoneInput" class="input-field" placeholder="024xxxxxxx" value="0247035105">
+        <small style="color: #3a546d; margin-top: 4px; display: block;" id="airtimePhoneHint">MTN: 024,054,055,059,025 | Telecel: 020,050 | AirtelTigo: 026,056</small>
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-coins"></i> Amount (GHS)</label>
+        <input type="number" id="amountInput" class="input-field" placeholder="e.g. 10" min="1" value="10">
+      </div>
+      
+      <!-- Network selection for airtime -->
+      <div style="margin-bottom: 20px;">
+        <label style="font-weight: 600; color: #0A2342; margin-bottom: 10px; display: block;">Select your network:</label>
+        <div class="network-selector" id="airtimeNetworkSelector">
+          <div class="network-option" data-network="mtn" id="airtimeMtnOption">
+            <i class="fas fa-signal"></i>
+            <span>MTN</span>
+          </div>
+          <div class="network-option selected" data-network="telecel" id="airtimeTelecelOption">
+            <i class="fas fa-signal"></i>
+            <span>Telecel</span>
+          </div>
+          <div class="network-option" data-network="airteltigo" id="airtimeAirtelTigoOption">
+            <i class="fas fa-signal"></i>
+            <span>AirtelTigo</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Airtime Payment Button -->
+      <button class="pay-btn" id="payAirtimeBtn">
+        <i class="fas fa-lock"></i> Pay with MoMo
+      </button>
+      
+      <!-- Payment info -->
+      <p style="margin-top: 16px; font-size: 0.85rem; background: #E9F1F7; padding: 8px; border-radius: 40px;">
+        <i class="fas fa-shield-alt" style="color:#2A9D8F;"></i> You'll receive a prompt on your phone to enter your MoMo PIN
+      </p>
+    </div>
+    <div class="info-note">
+      <i class="fas fa-exchange-alt"></i> After successful payment, airtime will be credited instantly to the phone number provided.
+    </div>
+  </div>
+
+  <!-- Phone Number Modal for Bundle Purchase (with network selection) -->
+  <div class="bundle-modal" id="bundleModal">
+    <div class="modal-content">
+      <span class="modal-close" id="closeModal">&times;</span>
+      <h3><i class="fas fa-gift"></i> Complete Purchase</h3>
+      <p id="selectedBundleInfo">Selected bundle: <strong></strong></p>
+      
+      <!-- Network selection -->
+      <div style="margin-bottom: 20px;">
+        <label style="font-weight: 600; color: #0A2342; margin-bottom: 10px; display: block;">Select your network:</label>
+        <div class="network-selector" id="bundleNetworkSelector">
+          <div class="network-option" data-network="mtn" id="bundleMtnOption">
+            <i class="fas fa-signal"></i>
+            <span>MTN</span>
+          </div>
+          <div class="network-option selected" data-network="telecel" id="bundleTelecelOption">
+            <i class="fas fa-signal"></i>
+            <span>Telecel</span>
+          </div>
+          <div class="network-option" data-network="airteltigo" id="bundleAirtelTigoOption">
+            <i class="fas fa-signal"></i>
+            <span>AirtelTigo</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="input-group">
+        <label><i class="fas fa-mobile-alt"></i> Your phone number</label>
+        <input type="tel" id="bundlePhone" class="input-field" placeholder="024xxxxxxx">
+        <small style="color: #3a546d; margin-top: 4px; display: block;" id="bundlePhoneHint">Telecel numbers: 020, 050</small>
+      </div>
+      
+      <button class="pay-btn" id="payBundleBtn">
+        <i class="fas fa-lock"></i> Pay with MoMo
+      </button>
+    </div>
+  </div>
+
+  <!-- small footer -->
+  <div class="footer-note">
+    Sr. Samuel Data – Telecel express
+  </div>
+</div>
+
+<script>
+  (function() {
+    // -------------------- DATA BUNDLES (1GB to 20GB) with realistic prices (GHS) --------------------
+    const bundles = [
+      { size: "1GB", price: "3.20", validity: "7 days" },
+      { size: "2GB", price: "5.80", validity: "14 days" },
+      { size: "3GB", price: "8.50", validity: "21 days" },
+      { size: "4GB", price: "11.50", validity: "30 days" },
+      { size: "5GB", price: "14.50", validity: "30 days" },
+      { size: "6GB", price: "17.50", validity: "30 days" },
+      { size: "7GB", price: "19.50", validity: "30 days" },
+      { size: "8GB", price: "22.50", validity: "30 days" },
+      { size: "10GB", price: "27.50", validity: "30 days" },
+      { size: "12GB", price: "32.50", validity: "30 days" },
+      { size: "15GB", price: "39.00", validity: "30 days" },
+      { size: "20GB", price: "51.00", validity: "30 days" }
+    ];
+
+    const bundleContainer = document.getElementById('bundleList');
+    const modal = document.getElementById('bundleModal');
+    const closeModal = document.getElementById('closeModal');
+    const selectedBundleInfo = document.getElementById('selectedBundleInfo').querySelector('strong');
+    const bundlePhone = document.getElementById('bundlePhone');
+    const payBundleBtn = document.getElementById('payBundleBtn');
+    const bundlePhoneHint = document.getElementById('bundlePhoneHint');
+    const airtimePhoneHint = document.getElementById('airtimePhoneHint');
+    
+    // Network selection elements
+    const bundleNetworkOptions = document.querySelectorAll('#bundleNetworkSelector .network-option');
+    const airtimeNetworkOptions = document.querySelectorAll('#airtimeNetworkSelector .network-option');
+    
+    let currentBundle = null;
+    let selectedBundleNetwork = 'telecel'; // Default for Telecel page
+    let selectedAirtimeNetwork = 'telecel'; // Default for Telecel page
+
+    // Network selection handlers for bundle modal
+    bundleNetworkOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        // Remove selected class from all options
+        bundleNetworkOptions.forEach(opt => opt.classList.remove('selected'));
+        // Add selected class to clicked option
+        option.classList.add('selected');
+        // Update selected network
+        selectedBundleNetwork = option.dataset.network;
+        // Update phone hint
+        updateBundlePhoneHint(selectedBundleNetwork);
+        // Validate phone if already entered
+        if (bundlePhone.value.trim()) {
+          validatePhoneByNetwork(bundlePhone.value.trim(), selectedBundleNetwork);
+        }
+      });
+    });
+
+    // Network selection handlers for airtime
+    airtimeNetworkOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        airtimeNetworkOptions.forEach(opt => opt.classList.remove('selected'));
+        option.classList.add('selected');
+        selectedAirtimeNetwork = option.dataset.network;
+        // Update phone hint
+        updateAirtimePhoneHint(selectedAirtimeNetwork);
+        // Validate phone if already entered
+        if (phoneInput.value.trim()) {
+          validatePhoneByNetwork(phoneInput.value.trim(), selectedAirtimeNetwork);
+        }
+      });
+    });
+
+    // Update bundle phone hint based on selected network
+    function updateBundlePhoneHint(network) {
+      if (network === 'mtn') {
+        bundlePhoneHint.textContent = 'MTN numbers: 024, 054, 055, 059, 025';
+      } else if (network === 'telecel') {
+        bundlePhoneHint.textContent = 'Telecel numbers: 020, 050';
+      } else if (network === 'airteltigo') {
+        bundlePhoneHint.textContent = 'AirtelTigo numbers: 026, 056';
+      }
+    }
+
+    // Update airtime phone hint based on selected network
+    function updateAirtimePhoneHint(network) {
+      if (network === 'mtn') {
+        airtimePhoneHint.textContent = 'MTN numbers: 024, 054, 055, 059, 025';
+      } else if (network === 'telecel') {
+        airtimePhoneHint.textContent = 'Telecel numbers: 020, 050';
+      } else if (network === 'airteltigo') {
+        airtimePhoneHint.textContent = 'AirtelTigo numbers: 026, 056';
+      }
+    }
+
+    // Validate phone by network
+    function validatePhoneByNetwork(phone, network) {
+      const cleaned = phone.replace(/\D/g, '');
+      
+      if (network === 'mtn') {
+        return /^(024|054|055|059|025)\d{7}$/.test(cleaned);
+      } else if (network === 'telecel') {
+        return /^(020|050)\d{7}$/.test(cleaned);
+      } else if (network === 'airteltigo') {
+        return /^(026|056)\d{7}$/.test(cleaned);
+      }
+      return false;
+    }
+
+    // Get network provider string for Paystack
+    function getNetworkProvider(network) {
+      const providers = {
+        'mtn': 'mtn',
+        'telecel': 'telecel',
+        'airteltigo': 'airteltigo'
+      };
+      return providers[network] || 'telecel';
+    }
+
+    if (bundleContainer) {
+      bundles.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'bundle-card';
+        card.setAttribute('data-bundle', `${item.size} - GHS ${item.price}`);
+        card.setAttribute('data-price', item.price);
+        card.setAttribute('data-size', item.size);
+        
+        // Create icon based on bundle size
+        let iconClass = 'fas fa-database';
+        if (item.size.includes('1GB') || item.size.includes('2GB')) iconClass = 'fas fa-leaf';
+        else if (item.size.includes('5GB')) iconClass = 'fas fa-bolt';
+        else if (item.size.includes('10GB')) iconClass = 'fas fa-gem';
+        else if (item.size.includes('20GB')) iconClass = 'fas fa-crown';
+        
+        card.innerHTML = `
+          <div class="bundle-icon">
+            <i class="${iconClass}"></i>
+          </div>
+          <div class="bundle-info">
+            <h4>${item.size}</h4>
+            <p>GHS ${item.price}</p>
+            <span class="validity-badge">${item.validity}</span>
+          </div>
+        `;
+        
+        // click on bundle -> open payment modal
+        card.addEventListener('click', () => {
+          currentBundle = item;
+          selectedBundleInfo.textContent = `${item.size} - GHS ${item.price}`;
+          modal.classList.add('active');
+        });
+        
+        bundleContainer.appendChild(card);
+      });
+    }
+
+    // Close modal
+    closeModal.addEventListener('click', () => {
+      modal.classList.remove('active');
+      bundlePhone.value = '';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        bundlePhone.value = '';
+      }
+    });
+
+    // -------------------- TAB SWITCHING --------------------
+    const tabData = document.getElementById('tabDataBtn');
+    const tabAirtime = document.getElementById('tabAirtimeBtn');
+    const panelData = document.getElementById('dataPanel');
+    const panelAirtime = document.getElementById('airtimePanel');
+
+    function setActiveTab(dataActive) {
+      if (dataActive) {
+        tabData.classList.add('active');
+        tabAirtime.classList.remove('active');
+        panelData.classList.add('active-panel');
+        panelAirtime.classList.remove('active-panel');
+      } else {
+        tabAirtime.classList.add('active');
+        tabData.classList.remove('active');
+        panelAirtime.classList.add('active-panel');
+        panelData.classList.remove('active-panel');
+      }
+    }
+
+    tabData.addEventListener('click', () => setActiveTab(true));
+    tabAirtime.addEventListener('click', () => setActiveTab(false));
+
+    // -------------------- PAYMENT CONFIGURATION --------------------
+    // 🔴 YOUR LIVE PAYSTACK KEY
+    const PAYSTACK_LIVE_KEY = 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455';
+    const MERCHANT_EMAIL = 'srsamueldouseappiah@gmail.com'; // Your email for notifications
+
+    // Helper function to notify merchant
+    function notifyMerchant(paymentDetails) {
+        console.log('🔔 New purchase notification:', paymentDetails);
+        alert(`✅ New purchase!\nNetwork: ${paymentDetails.network}\nCustomer: ${paymentDetails.phone}\nProduct: ${paymentDetails.product}\nAmount: GHS ${paymentDetails.amount}\nReference: ${paymentDetails.reference}`);
+    }
+
+    // -------------------- BUNDLE PAYMENT HANDLER --------------------
+    payBundleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        if (!currentBundle) {
+            alert('Please select a bundle first');
+            return;
+        }
+        
+        const phone = bundlePhone.value.trim();
+        
+        if (!phone) {
+            alert('Please enter your phone number');
+            return;
+        }
+        
+        if (!validatePhoneByNetwork(phone, selectedBundleNetwork)) {
+            const networkNames = {
+                'mtn': 'MTN',
+                'telecel': 'Telecel',
+                'airteltigo': 'AirtelTigo'
+            };
+            alert(`Please enter a valid ${networkNames[selectedBundleNetwork]} phone number`);
+            return;
+        }
+        
+        const amount = parseFloat(currentBundle.price);
+        const networkName = selectedBundleNetwork === 'mtn' ? 'MTN' : 
+                           selectedBundleNetwork === 'telecel' ? 'Telecel' : 'AirtelTigo';
+        
+        // Initialize Paystack payment
+        const handler = PaystackPop.setup({
+            key: PAYSTACK_LIVE_KEY,
+            email: 'customer@example.com',
+            amount: amount * 100,
+            currency: 'GHS',
+            ref: `${selectedBundleNetwork.toUpperCase()}-BDL-` + Math.floor(Math.random() * 1000000000 + 1),
+            channels: ['mobile_money'],
+            'mobile_money': {
+                phone: phone,
+                provider: getNetworkProvider(selectedBundleNetwork)
+            },
+            metadata: {
+                custom_fields: [
+                    {
+                        display_name: "Customer Phone",
+                        variable_name: "customer_phone",
+                        value: phone
+                    },
+                    {
+                        display_name: "Bundle",
+                        variable_name: "bundle",
+                        value: `${currentBundle.size} - ${currentBundle.validity}`
+                    },
+                    {
+                        display_name: "Network",
+                        variable_name: "network",
+                        value: networkName
+                    }
+                ],
+                product: `${networkName} ${currentBundle.size} Data Bundle`,
+                customer_phone: phone,
+                bundle_size: currentBundle.size,
+                bundle_price: currentBundle.price,
+                bundle_validity: currentBundle.validity
+            },
+            callback: function(response) {
+                const paymentDetails = {
+                    reference: response.reference,
+                    amount: amount,
+                    phone: phone,
+                    product: `${networkName} ${currentBundle.size} Data Bundle`,
+                    network: networkName,
+                    timestamp: new Date().toISOString(),
+                    customer_phone: phone
+                };
+                
+                modal.classList.remove('active');
+                bundlePhone.value = '';
+                
+                alert(`✅ Payment successful!\n\nReference: ${response.reference}\nNetwork: ${networkName}\nBundle: ${currentBundle.size}\nAmount: GHS ${amount}\n\nYour data will be delivered to ${phone} within 5 minutes.`);
+                
+                notifyMerchant(paymentDetails);
+                console.log('📦 Deliver data:', paymentDetails);
+            },
+            onClose: function() {
+                console.log('Payment cancelled by user');
+            }
+        });
+        
+        handler.openIframe();
+    });
+
+    // -------------------- AIRTIME PAYMENT HANDLER --------------------
+    const payAirtimeBtn = document.getElementById('payAirtimeBtn');
+    const phoneInput = document.getElementById('phoneInput');
+    const amountInput = document.getElementById('amountInput');
+
+    payAirtimeBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+
+        const phone = phoneInput.value.trim();
+        const amount = parseFloat(amountInput.value);
+
+        if (!phone) {
+            alert('Please enter your phone number');
+            return;
+        }
+
+        if (!validatePhoneByNetwork(phone, selectedAirtimeNetwork)) {
+            const networkNames = {
+                'mtn': 'MTN',
+                'telecel': 'Telecel',
+                'airteltigo': 'AirtelTigo'
+            };
+            alert(`Please enter a valid ${networkNames[selectedAirtimeNetwork]} phone number`);
+            return;
+        }
+
+        if (isNaN(amount) || amount < 1) {
+            alert('Please enter a valid amount (minimum GHS 1)');
+            return;
+        }
+
+        const networkName = selectedAirtimeNetwork === 'mtn' ? 'MTN' : 
+                           selectedAirtimeNetwork === 'telecel' ? 'Telecel' : 'AirtelTigo';
+
+        const handler = PaystackPop.setup({
+            key: PAYSTACK_LIVE_KEY,
+            email: 'customer@example.com',
+            amount: amount * 100,
+            currency: 'GHS',
+            ref: `${selectedAirtimeNetwork.toUpperCase()}-AIR-` + Math.floor(Math.random() * 1000000000 + 1),
+            channels: ['mobile_money'],
+            'mobile_money': {
+                phone: phone,
+                provider: getNetworkProvider(selectedAirtimeNetwork)
+            },
+            metadata: {
+                custom_fields: [
+                    {
+                        display_name: "Customer Phone",
+                        variable_name: "customer_phone",
+                        value: phone
+                    },
+                    {
+                        display_name: "Product Type",
+                        variable_name: "product_type",
+                        value: "Airtime"
+                    },
+                    {
+                        display_name: "Network",
+                        variable_name: "network",
+                        value: networkName
+                    }
+                ],
+                product: `${networkName} Airtime`,
+                customer_phone: phone,
+                airtime_amount: amount
+            },
+            callback: function(response) {
+                const paymentDetails = {
+                    reference: response.reference,
+                    amount: amount,
+                    phone: phone,
+                    product: `${networkName} Airtime`,
+                    network: networkName,
+                    timestamp: new Date().toISOString(),
+                    customer_phone: phone
+                };
+                
+                alert(`✅ Airtime payment successful!\n\nReference: ${response.reference}\nNetwork: ${networkName}\nAmount: GHS ${amount}\nPhone: ${phone}\n\nAirtime will be credited within 2 minutes.`);
+                
+                notifyMerchant(paymentDetails);
+                console.log('📞 Deliver airtime:', paymentDetails);
+            },
+            onClose: function() {
+                console.log('Airtime payment cancelled');
+            }
+        });
+        
+        handler.openIframe();
+    });
+
+    // Real-time phone validation
+    phoneInput.addEventListener('input', function(e) {
+        const isValid = validatePhoneByNetwork(e.target.value, selectedAirtimeNetwork);
+        if (e.target.value.length > 0) {
+            e.target.style.borderColor = isValid ? '#2A9D8F' : '#dc3545';
+        } else {
+            e.target.style.borderColor = '#dde7f0';
+        }
+    });
+
+    bundlePhone.addEventListener('input', function(e) {
+        const isValid = validatePhoneByNetwork(e.target.value, selectedBundleNetwork);
+        if (e.target.value.length > 0) {
+            e.target.style.borderColor = isValid ? '#2A9D8F' : '#dc3545';
+        } else {
+            e.target.style.borderColor = '#dde7f0';
+        }
+    });
+
+  })();
+</script>
+</body>
+</html>

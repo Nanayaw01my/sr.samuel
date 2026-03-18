@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>BECE/WASSCE Checker · Sr. Samuel Data</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Paystack inline script -->
+  <script src="https://js.paystack.co/v1/inline.js"></script> 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background-color: #f5f7fa;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px 12px 32px;
+    }
+
+    .app-container {
+      max-width: 480px;
+      width: 100%;
+      background-color: white;
+      border-radius: 38px 38px 32px 32px;
+      box-shadow: 0 20px 35px -8px rgba(0, 40, 60, 0.25);
+      overflow: hidden;
+      border: 1px solid rgba(0, 128, 128, 0.1);
+    }
+
+    /* header – navy + teal */
+    .brand-header {
+      background-color: #0A2342;
+      padding: 20px 24px 16px;
+      color: white;
+      border-bottom: 4px solid #2A9D8F;
+    }
+
+    .business-name {
+      font-size: 1.8rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .business-name span {
+      color: #E9F1F7;
+      font-weight: 400;
+      font-size: 1rem;
+      display: block;
+      margin-top: 4px;
+      opacity: 0.9;
+    }
+
+    .back-nav {
+      margin-bottom: 12px;
+    }
+
+    .back-link {
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.1);
+      padding: 6px 16px 6px 12px;
+      border-radius: 40px;
+      font-size: 0.95rem;
+      border: 1px solid #2A9D8F;
+      transition: 0.15s;
+    }
+
+    .back-link i {
+      color: #2A9D8F;
+    }
+
+    .back-link:hover {
+      background: #1e4f6e;
+    }
+
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px 24px;
+      margin-top: 12px;
+      background: rgba(255,255,255,0.08);
+      padding: 10px 14px;
+      border-radius: 60px;
+      border: 1px solid rgba(42, 157, 143, 0.4);
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .contact-item i {
+      color: #2A9D8F;
+      width: 22px;
+      font-size: 1.2rem;
+    }
+
+    .contact-item a {
+      color: white;
+      text-decoration: none;
+      background: #0f2e4a;
+      padding: 4px 10px;
+      border-radius: 40px;
+      border: 1px solid #2A9D8F;
+    }
+
+    /* tabs: BECE / WASSCE */
+    .tab-bar {
+      background: #E9F1F7;
+      padding: 12px 16px;
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid #cbd5e0;
+    }
+
+    .tab-btn {
+      flex: 1;
+      background: white;
+      border: none;
+      border-radius: 60px;
+      padding: 12px 8px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #0A2342;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(10,35,66,0.1);
+      border: 1px solid transparent;
+      transition: 0.15s;
+    }
+
+    .tab-btn i {
+      color: #2A9D8F;
+    }
+
+    .tab-btn.active {
+      background: #2A9D8F;
+      color: white;
+      border-color: #0A2342;
+    }
+    .tab-btn.active i {
+      color: white;
+    }
+
+    /* main content panels */
+    .panel {
+      display: none;
+      padding: 24px 20px 28px;
+      background: white;
+    }
+
+    .panel.active-panel {
+      display: block;
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #0A2342;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title i {
+      color: #2A9D8F;
+    }
+
+    /* checker cards grid */
+    .checker-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .checker-card {
+      background: #f9fcff;
+      border-radius: 20px;
+      border: 1px solid #dde7f0;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: 0.2s;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+    }
+
+    .checker-card:hover {
+      border-color: #2A9D8F;
+      box-shadow: 0 10px 20px -8px rgba(42, 157, 143, 0.3);
+      background: white;
+      transform: translateY(-2px);
+    }
+
+    .checker-icon {
+      background: #0A2342;
+      color: white;
+      width: 60px;
+      height: 60px;
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      border: 2px solid #2A9D8F;
+      margin-bottom: 12px;
+    }
+
+    .checker-info h4 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0A2342;
+      margin-bottom: 4px;
+    }
+
+    .checker-info p {
+      color: #2A9D8F;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .price-badge {
+      background: #E9F1F7;
+      color: #0A2342;
+      font-size: 0.9rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 30px;
+      display: inline-block;
+      border: 1px solid #2A9D8F;
+      margin-top: 8px;
+    }
+
+    /* payment form */
+    .payment-card {
+      background: #f0f7fc;
+      border-radius: 32px;
+      padding: 24px 20px;
+      border: 1px solid #cbd5e0;
+      margin-top: 20px;
+    }
+
+    .input-group {
+      margin-bottom: 22px;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      color: #0A2342;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-bottom: 6px;
+    }
+    .input-group label i {
+      color: #2A9D8F;
+    }
+
+    .input-field {
+      width: 100%;
+      padding: 16px 18px;
+      border: 2px solid #dde7f0;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      outline: none;
+      transition: 0.15s;
+      background: white;
+    }
+    .input-field:focus {
+      border-color: #2A9D8F;
+    }
+
+    .pay-btn {
+      background: #0A2342;
+      width: 100%;
+      border: none;
+      color: white;
+      padding: 18px 20px;
+      font-size: 1.4rem;
+      font-weight: 700;
+      border-radius: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      cursor: pointer;
+      border: 2px solid #2A9D8F;
+      transition: 0.15s;
+      margin-top: 10px;
+    }
+
+    .pay-btn i {
+      color: #2A9D8F;
+    }
+
+    .pay-btn:hover {
+      background: #1e4f6e;
+      transform: scale(1.02);
+    }
+
+    .info-note {
+      font-size: 0.9rem;
+      color: #3a546d;
+      margin-top: 20px;
+      text-align: center;
+      border-top: 1px dashed #2A9D8F;
+      padding-top: 16px;
+    }
+
+    .info-note i {
+      color: #2A9D8F;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: #6b7f94;
+      font-size: 0.85rem;
+      margin: 10px 0 8px;
+    }
+
+    /* exam type indicator */
+    .exam-type {
+      background: #2A9D8F;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 60px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    @media (min-width: 600px) {
+      .app-container {
+        max-width: 700px;
+      }
+      
+      .checker-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- header with back navigation -->
+  <div class="brand-header">
+    <div class="back-nav">
+      <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> back to home</a>
+    </div>
+    <div class="business-name">
+      Result Checker
+      <span>BECE & WASSCE · instant</span>
+    </div>
+    <div class="contact-row">
+      <div class="contact-item">
+        <i class="fas fa-phone-alt"></i>
+        <a href="tel:0547035105">0547035105</a>
+      </div>
+      <div class="contact-item">
+        <i class="fab fa-whatsapp"></i>
+        <a href="https://wa.me/233547035105" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- tabs: BECE / WASSCE -->
+  <div class="tab-bar">
+    <button class="tab-btn active" id="tabBECEBtn"><i class="fas fa-school"></i> BECE</button>
+    <button class="tab-btn" id="tabWASSECEBtn"><i class="fas fa-graduation-cap"></i> WASSCE</button>
+  </div>
+
+  <!-- BECE PANEL -->
+  <div id="becePanel" class="panel active-panel">
+    <div class="section-title">
+      <i class="fas fa-layer-group"></i> BECE Checker Cards
+      <span class="exam-type">BECE</span>
+    </div>
+    
+    <!-- BECE Checker Cards Grid -->
+    <div class="checker-grid" id="beceCardGrid">
+      <!-- Dynamically generated via JS -->
+    </div>
+
+    <!-- Payment Form for BECE -->
+    <div class="payment-card" id="becePayment">
+      <h4 style="color: #0A2342; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-credit-card" style="color: #2A9D8F;"></i> Purchase BECE Checker
+      </h4>
+      <div class="input-group">
+        <label><i class="fas fa-mobile-alt"></i> Phone number</label>
+        <input type="tel" id="becePhone" class="input-field" placeholder="0547035105" value="0547035105">
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-hashtag"></i> Number of cards</label>
+        <input type="number" id="beceQuantity" class="input-field" value="1" min="1" max="10">
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-tag"></i> Total amount</label>
+        <div class="input-field" id="beceTotal" style="background: #E9F1F7; font-weight: 700;">GHS 5.00</div>
+      </div>
+      <button class="pay-btn" id="payBECEBtn">
+        <i class="fas fa-lock"></i> Pay with Paystack
+      </button>
+    </div>
+
+    <div class="info-note">
+      <i class="fas fa-info-circle"></i> Each BECE checker card costs GHS 5. Cards will be sent via SMS after payment.
+    </div>
+  </div>
+
+  <!-- WASSCE PANEL -->
+  <div id="wascePanel" class="panel">
+    <div class="section-title">
+      <i class="fas fa-layer-group"></i> WASSCE Checker Cards
+      <span class="exam-type">WASSCE</span>
+    </div>
+    
+    <!-- WASSCE Checker Cards Grid -->
+    <div class="checker-grid" id="wasceCardGrid">
+      <!-- Dynamically generated via JS -->
+    </div>
+
+    <!-- Payment Form for WASSCE -->
+    <div class="payment-card" id="wascePayment">
+      <h4 style="color: #0A2342; margin-bottom: 16px; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-credit-card" style="color: #2A9D8F;"></i> Purchase WASSCE Checker
+      </h4>
+      <div class="input-group">
+        <label><i class="fas fa-mobile-alt"></i> Phone number</label>
+        <input type="tel" id="wascePhone" class="input-field" placeholder="0547035105" value="0547035105">
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-hashtag"></i> Number of cards</label>
+        <input type="number" id="wasceQuantity" class="input-field" value="1" min="1" max="10">
+      </div>
+      <div class="input-group">
+        <label><i class="fas fa-tag"></i> Total amount</label>
+        <div class="input-field" id="wasceTotal" style="background: #E9F1F7; font-weight: 700;">GHS 10.00</div>
+      </div>
+      <button class="pay-btn" id="payWASCEBtn">
+        <i class="fas fa-lock"></i> Pay with Paystack
+      </button>
+    </div>
+
+    <div class="info-note">
+      <i class="fas fa-info-circle"></i> Each WASSCE checker card costs GHS 10. Cards will be sent via SMS after payment.
+    </div>
+  </div>
+
+  <!-- small footer -->
+  <div class="footer-note">
+    Sr. Samuel Data – Official WAEC result checker
+  </div>
+</div>
+
+<script>
+  (function() {
+    // -------------------- BECE CHECKER CARDS --------------------
+    const beceCards = [
+      { type: "Single", price: "5.00", validity: "1 check", icon: "fa-file" },
+      { type: "Double", price: "9.00", validity: "2 checks", icon: "fa-files" },
+      { type: "Triple", price: "13.00", validity: "3 checks", icon: "fa-copy" },
+      { type: "Bulk", price: "20.00", validity: "5 checks", icon: "fa-layer-group" }
+    ];
+
+    const beceGrid = document.getElementById('beceCardGrid');
+    if (beceGrid) {
+      beceCards.forEach(card => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'checker-card';
+        cardElement.innerHTML = `
+          <div class="checker-icon">
+            <i class="fas ${card.icon}"></i>
+          </div>
+          <div class="checker-info">
+            <h4>${card.type}</h4>
+            <p>GHS ${card.price}</p>
+            <span class="price-badge">${card.validity}</span>
+          </div>
+        `;
+        cardElement.addEventListener('click', () => {
+          document.getElementById('beceQuantity').value = card.type === "Single" ? 1 : 
+                                                          card.type === "Double" ? 2 :
+                                                          card.type === "Triple" ? 3 : 5;
+          updateBECETotal();
+        });
+        beceGrid.appendChild(cardElement);
+      });
+    }
+
+    // -------------------- WASSCE CHECKER CARDS --------------------
+    const wasceCards = [
+      { type: "Single", price: "10.00", validity: "1 check", icon: "fa-file" },
+      { type: "Double", price: "18.00", validity: "2 checks", icon: "fa-files" },
+      { type: "Triple", price: "26.00", validity: "3 checks", icon: "fa-copy" },
+      { type: "Bulk", price: "40.00", validity: "5 checks", icon: "fa-layer-group" }
+    ];
+
+    const wasceGrid = document.getElementById('wasceCardGrid');
+    if (wasceGrid) {
+      wasceCards.forEach(card => {
+        const cardElement = document.createElement('div');
+        cardElement.className = 'checker-card';
+        cardElement.innerHTML = `
+          <div class="checker-icon">
+            <i class="fas ${card.icon}"></i>
+          </div>
+          <div class="checker-info">
+            <h4>${card.type}</h4>
+            <p>GHS ${card.price}</p>
+            <span class="price-badge">${card.validity}</span>
+          </div>
+        `;
+        cardElement.addEventListener('click', () => {
+          document.getElementById('wasceQuantity').value = card.type === "Single" ? 1 : 
+                                                           card.type === "Double" ? 2 :
+                                                           card.type === "Triple" ? 3 : 5;
+          updateWASCETotal();
+        });
+        wasceGrid.appendChild(cardElement);
+      });
+    }
+
+    // -------------------- TOTAL UPDATE FUNCTIONS --------------------
+    function updateBECETotal() {
+      const quantity = parseInt(document.getElementById('beceQuantity').value) || 1;
+      const total = (quantity * 5).toFixed(2);
+      document.getElementById('beceTotal').textContent = `GHS ${total}`;
+    }
+
+    function updateWASCETotal() {
+      const quantity = parseInt(document.getElementById('wasceQuantity').value) || 1;
+      const total = (quantity * 10).toFixed(2);
+      document.getElementById('wasceTotal').textContent = `GHS ${total}`;
+    }
+
+    document.getElementById('beceQuantity').addEventListener('input', updateBECETotal);
+    document.getElementById('wasceQuantity').addEventListener('input', updateWASCETotal);
+
+    // -------------------- TAB SWITCHING --------------------
+    const tabBECE = document.getElementById('tabBECEBtn');
+    const tabWASSCE = document.getElementById('tabWASSECEBtn');
+    const panelBECE = document.getElementById('becePanel');
+    const panelWASSCE = document.getElementById('wascePanel');
+
+    function setActiveTab(isBECE) {
+      if (isBECE) {
+        tabBECE.classList.add('active');
+        tabWASSCE.classList.remove('active');
+        panelBECE.classList.add('active-panel');
+        panelWASSCE.classList.remove('active-panel');
+      } else {
+        tabWASSCE.classList.add('active');
+        tabBECE.classList.remove('active');
+        panelWASSCE.classList.add('active-panel');
+        panelBECE.classList.remove('active-panel');
+      }
+    }
+
+    tabBECE.addEventListener('click', () => setActiveTab(true));
+    tabWASSCE.addEventListener('click', () => setActiveTab(false));
+
+    // -------------------- PAYSTACK INTEGRATION --------------------
+    // 🔴 REPLACE WITH YOUR ACTUAL LIVE KEY
+    const PAYSTACK_LIVE_KEY = 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455'; // sample placeholder (replace)
+
+    // BECE Payment
+    document.getElementById('payBECEBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const phone = document.getElementById('becePhone').value.trim();
+      const quantity = parseInt(document.getElementById('beceQuantity').value) || 1;
+      const amount = quantity * 5;
+
+      if (!phone || phone.length < 10) {
+        alert('Please enter a valid phone number');
+        return;
+      }
+
+      const handler = PaystackPop.setup({
+        key: PAYSTACK_LIVE_KEY,
+        email: 'customer@samueldata.com',
+        amount: amount * 100,
+        currency: 'GHS',
+        ref: 'BECE-' + Math.floor(Math.random() * 1000000000 + 1),
+        metadata: {
+          custom_fields: [
+            {
+              display_name: "Phone number",
+              variable_name: "phone",
+              value: phone
+            },
+            {
+              display_name: "Exam Type",
+              variable_name: "exam_type",
+              value: "BECE"
+            },
+            {
+              display_name: "Quantity",
+              variable_name: "quantity",
+              value: quantity.toString()
+            }
+          ]
+        },
+        callback: function(response) {
+          alert(`✅ Payment successful! Reference: ${response.reference}\n${quantity} BECE checker card(s) will be sent to ${phone} shortly.`);
+          console.log('success. ref:', response.reference);
+        },
+        onClose: function() {
+          alert('Payment window closed.');
+        }
+      });
+      handler.openIframe();
+    });
+
+    // WASSCE Payment
+    document.getElementById('payWASCEBtn').addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      const phone = document.getElementById('wascePhone').value.trim();
+      const quantity = parseInt(document.getElementById('wasceQuantity').value) || 1;
+      const amount = quantity * 10;
+
+      if (!phone || phone.length < 10) {
+        alert('Please enter a valid phone number');
+        return;
+      }
+
+      const handler = PaystackPop.setup({
+        key: PAYSTACK_LIVE_KEY,
+        email: 'customer@samueldata.com',
+        amount: amount * 100,
+        currency: 'GHS',
+        ref: 'WASSCE-' + Math.floor(Math.random() * 1000000000 + 1),
+        metadata: {
+          custom_fields: [
+            {
+              display_name: "Phone number",
+              variable_name: "phone",
+              value: phone
+            },
+            {
+              display_name: "Exam Type",
+              variable_name: "exam_type",
+              value: "WASSCE"
+            },
+            {
+              display_name: "Quantity",
+              variable_name: "quantity",
+              value: quantity.toString()
+            }
+          ]
+        },
+        callback: function(response) {
+          alert(`✅ Payment successful! Reference: ${response.reference}\n${quantity} WASSCE checker card(s) will be sent to ${phone} shortly.`);
+          console.log('success. ref:', response.reference);
+        },
+        onClose: function() {
+          alert('Payment window closed.');
+        }
+      });
+      handler.openIframe();
+    });
+
+    // Warning for placeholder key
+    if (PAYSTACK_LIVE_KEY === 'pk_live_8d8b9e8c6d9c4b2a1f3d5e7a9c0b2a4f6e8d1a3c') {
+      console.warn('Replace with your actual Paystack live key!');
+    }
+  })();
+</script>
+</body>
+</html>
