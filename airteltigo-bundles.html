@@ -467,7 +467,7 @@
   <div id="dataPanel" class="panel active-panel">
     <div class="section-title">
       <i class="fas fa-tachometer-alt"></i> AirtelTigo data packages
-      <span class="network-label"><i class="fas fa-sim-card"></i> 1GB → 20GB</span>
+      <span class="network-label"><i class="fas fa-sim-card"></i> 1GB → 50GB</span>
     </div>
     <div class="bundle-grid" id="bundleList"></div>
     <div class="info-note">
@@ -529,24 +529,26 @@
 
 <script>
   (function() {
-    // DATA BUNDLES - no "incl. tax" text
+    // ============================================================
+    // DATA BUNDLES - FULLY FIXED with NON-EXPIRY validity
+    // ============================================================
     const bundles = [
-      { size: "1GB", price: "6.00", },
-      { size: "2GB", price: "11.00",  },
-      { size: "3GB", price: "15.00", },
-      { size: "4GB", price: "17.50",  },
-      { size: "5GB", price: "22.00",  },
-      { size: "6GB", price: "25.50", " },
-      { size: "7GB", price: "30.50",   },
-      { size: "8GB", price: "35.50",   },
-      { size: "10GB", price: "42.00",  },
-      { size: "12GB", price: "48.50",   },
-      { size: "15GB", price: "60.00",  },
-      { size: "20GB", price: "80.00",  }
-       { size: "25GB", price: "100.00",  }
-     { size: "30GB", price: "120.00",  }
-     { size: "40GB", price: "180.00",  }
-     { size: "50GB", price: "230.00",  }
+      { size: "1GB", price: "6.00", validity: "Non-expiry" },
+      { size: "2GB", price: "11.00", validity: "Non-expiry" },
+      { size: "3GB", price: "15.00", validity: "Non-expiry" },
+      { size: "4GB", price: "17.50", validity: "Non-expiry" },
+      { size: "5GB", price: "22.00", validity: "Non-expiry" },
+      { size: "6GB", price: "25.50", validity: "Non-expiry" },
+      { size: "7GB", price: "30.50", validity: "Non-expiry" },
+      { size: "8GB", price: "35.50", validity: "Non-expiry" },
+      { size: "10GB", price: "42.00", validity: "Non-expiry" },
+      { size: "12GB", price: "48.50", validity: "Non-expiry" },
+      { size: "15GB", price: "60.00", validity: "Non-expiry" },
+      { size: "20GB", price: "80.00", validity: "Non-expiry" },
+      { size: "25GB", price: "100.00", validity: "Non-expiry" },
+      { size: "30GB", price: "120.00", validity: "Non-expiry" },
+      { size: "40GB", price: "180.00", validity: "Non-expiry" },
+      { size: "50GB", price: "230.00", validity: "Non-expiry" }
     ];
 
     const bundleContainer = document.getElementById('bundleList');
@@ -582,6 +584,7 @@
     }
 
     function renderBundles() {
+      bundleContainer.innerHTML = ''; // Clear any existing content
       bundles.forEach(item => {
         const card = document.createElement('div');
         card.className = 'bundle-card';
@@ -593,7 +596,7 @@
           <div class="bundle-info">
             <h4>${item.size}</h4>
             <p>GHS ${item.price}</p>
-            <span class="validity-badge"><i class="far fa-clock"></i> ${item.validity}</span>
+            <span class="validity-badge"><i class="far fa-infinity"></i> ${item.validity}</span>
           </div>
         `;
         card.addEventListener('click', (e) => {
@@ -686,7 +689,7 @@
         callback: function(response) {
           modal.classList.remove('active');
           bundlePhone.value = '';
-          alert(`✅ Payment successful! Ref: ${response.reference}\n${currentBundle.size} data will be delivered to ${phone} in 5 min.`);
+          alert(`✅ Payment successful! Ref: ${response.reference}\n${currentBundle.size} data (Non-expiry) will be delivered to ${phone} in 5 min.`);
           notifyMerchant({ reference: response.reference, amount, phone, product: `${networkName} ${currentBundle.size}`, network: networkName });
         },
         onClose: () => console.log('closed')
@@ -763,4 +766,3 @@
 </script>
 </body>
 </html>
-```
