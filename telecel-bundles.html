@@ -1,4 +1,3 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -436,7 +435,7 @@
   <div id="dataPanel" class="panel active-panel">
     <div class="section-title">
       <i class="fas fa-tachometer-alt"></i> Telecel data packages
-      <span class="telecel-label"><i class="fas fa-sim-card"></i> 1GB → 50GB</span>
+      <span class="telecel-label"><i class="fas fa-sim-card"></i> 10GB → 100GB</span>
     </div>
     <div class="bundle-grid" id="bundleList"></div>
     <div class="info-note">
@@ -498,16 +497,16 @@
   (function() {
     // ============================================================
     // DATA BUNDLES - NON-EXPIRY VALIDITY, TELECEL BRANDING
+    // FIXED: Added missing commas after each bundle
     // ============================================================
     const bundles = [
-
       { size: "10GB", price: "45.50", validity: "Non-expiry" },
       { size: "15GB", price: "65.50", validity: "Non-expiry" },
-      { size: "20GB", price: "85.50", validity: "Non-expiry" }
+      { size: "20GB", price: "85.50", validity: "Non-expiry" },
       { size: "30GB", price: "120.00", validity: "Non-expiry" },
       { size: "40GB", price: "165.00", validity: "Non-expiry" },
-      { size: "50GB", price: "200.00", validity: "Non-expiry" }
-   { size: "100GB", price: "380.00", validity: "Non-expiry" }
+      { size: "50GB", price: "200.00", validity: "Non-expiry" },
+      { size: "100GB", price: "380.00", validity: "Non-expiry" }
     ];
 
     const bundleContainer = document.getElementById('bundleList');
@@ -749,4 +748,3 @@
 </script>
 </body>
 </html>
-```
