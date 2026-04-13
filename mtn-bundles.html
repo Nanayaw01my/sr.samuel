@@ -8,8 +8,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Paystack inline script -->
   <script src="https://js.paystack.co/v1/inline.js"></script>
-  <!-- MoMo Payment Integration -->
-  <script src="momo-payment.js"></script>
   <style>
     * {
       margin: 0;
@@ -19,7 +17,7 @@
     }
 
     body {
-      background-color: #f5f7fa;
+      background: linear-gradient(135deg, #eef2f7 0%, #d9e2ec 100%);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -28,41 +26,52 @@
     }
 
     .app-container {
-      max-width: 480px;
+      max-width: 520px;
       width: 100%;
       background-color: white;
-      border-radius: 38px 38px 32px 32px;
-      box-shadow: 0 20px 35px -8px rgba(0, 40, 60, 0.25);
+      border-radius: 48px 48px 36px 36px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.3);
       overflow: hidden;
-      border: 1px solid rgba(0, 128, 128, 0.1);
+      border: 1px solid rgba(10, 35, 66, 0.2);
     }
 
-    /* header – navy + teal */
+    /* header – navy + yellow (MTN colors) */
     .brand-header {
-      background-color: #0A2342;
-      padding: 20px 24px 16px;
+      background: linear-gradient(135deg, #0A2342 0%, #0d2f4e 100%);
+      padding: 20px 24px 18px;
       color: white;
-      border-bottom: 4px solid #2A9D8F;
+      border-bottom: 3px solid #FFCC00;
     }
 
     .business-name {
-      font-size: 1.8rem;
-      font-weight: 700;
+      font-size: 1.9rem;
+      font-weight: 800;
       letter-spacing: -0.5px;
       line-height: 1.2;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-
+    .business-name img {
+      height: 42px;
+      width: auto;
+      object-fit: contain;
+      background-color: white;
+      padding: 4px;
+      border-radius: 8px;
+    }
     .business-name span {
-      color: #E9F1F7;
-      font-weight: 400;
-      font-size: 1rem;
-      display: block;
-      margin-top: 4px;
-      opacity: 0.9;
+      background: #FFCC00;
+      color: #0A2342;
+      font-weight: 600;
+      font-size: 0.8rem;
+      padding: 4px 12px;
+      border-radius: 60px;
     }
 
     .back-nav {
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .back-link {
@@ -71,18 +80,16 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      background: rgba(255,255,255,0.1);
+      background: rgba(255,255,255,0.12);
       padding: 6px 16px 6px 12px;
       border-radius: 40px;
-      font-size: 0.95rem;
-      border: 1px solid #2A9D8F;
-      transition: 0.15s;
+      font-size: 0.9rem;
+      border: 1px solid #FFCC00;
+      transition: 0.2s;
     }
-
     .back-link i {
-      color: #2A9D8F;
+      color: #FFCC00;
     }
-
     .back-link:hover {
       background: #1e4f6e;
     }
@@ -90,41 +97,42 @@
     .contact-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px 24px;
-      margin-top: 12px;
-      background: rgba(255,255,255,0.08);
-      padding: 10px 14px;
+      gap: 14px 20px;
+      margin-top: 14px;
+      background: rgba(0,0,0,0.25);
+      padding: 8px 16px;
       border-radius: 60px;
-      border: 1px solid rgba(42, 157, 143, 0.4);
     }
 
     .contact-item {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 500;
     }
-
     .contact-item i {
-      color: #2A9D8F;
+      color: #FFCC00;
       width: 22px;
-      font-size: 1.2rem;
     }
-
     .contact-item a {
       color: white;
       text-decoration: none;
       background: #0f2e4a;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 40px;
-      border: 1px solid #2A9D8F;
+      border: 1px solid #FFCC00;
+      transition: 0.15s;
+    }
+    .contact-item a:hover {
+      background: #FFCC00;
+      color: #0A2342;
     }
 
-    /* tabs: data bundles / airtime */
+    /* tabs */
     .tab-bar {
-      background: #E9F1F7;
-      padding: 12px 16px;
+      background: #EFF3F8;
+      padding: 14px 16px;
       display: flex;
       gap: 12px;
       border-bottom: 1px solid #cbd5e0;
@@ -136,134 +144,156 @@
       border: none;
       border-radius: 60px;
       padding: 12px 8px;
-      font-weight: 600;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1rem;
       color: #0A2342;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(10,35,66,0.1);
-      border: 1px solid transparent;
-      transition: 0.15s;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      border: 1px solid #d4dfea;
+      transition: 0.2s;
     }
-
     .tab-btn i {
-      color: #2A9D8F;
+      color: #0A2342;
     }
-
     .tab-btn.active {
-      background: #2A9D8F;
+      background: #0A2342;
       color: white;
-      border-color: #0A2342;
+      border-color: #FFCC00;
     }
     .tab-btn.active i {
-      color: white;
+      color: #FFCC00;
     }
 
-    /* main content panels */
     .panel {
       display: none;
       padding: 24px 20px 28px;
       background: white;
     }
-
     .panel.active-panel {
       display: block;
     }
 
     .section-title {
       font-size: 1.3rem;
-      font-weight: 600;
+      font-weight: 700;
       color: #0A2342;
       margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: space-between;
     }
-    .section-title i {
-      color: #2A9D8F;
+    .mtn-label {
+      background: #0A2342;
+      color: #FFCC00;
+      padding: 4px 14px;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-weight: 600;
     }
 
-    /* data bundles grid - card grid layout */
+    /* bundle grid */
     .bundle-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      gap: 16px;
     }
 
-    /* individual bundle card */
     .bundle-card {
-      background: #f9fcff;
-      border-radius: 20px;
-      border: 1px solid #dde7f0;
-      padding: 16px 12px;
+      background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+      border-radius: 28px;
+      padding: 18px 12px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      transition: 0.2s;
+      transition: 0.25s ease;
       cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+      box-shadow: 0 10px 15px -8px rgba(0,0,0,0.1);
+      border: 1px solid rgba(10, 35, 66, 0.15);
     }
-
     .bundle-card:hover {
-      border-color: #2A9D8F;
-      box-shadow: 0 10px 20px -8px rgba(42, 157, 143, 0.3);
-      background: white;
-      transform: translateY(-2px);
+      transform: translateY(-5px);
+      border-color: #FFCC00;
+      box-shadow: 0 20px 25px -12px rgba(10,35,66,0.25);
     }
 
-    .bundle-icon {
+    /* MTN brand badge on each card */
+    .mtn-brand-card {
       background: #0A2342;
-      color: white;
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
+      border-radius: 60px;
+      padding: 8px 16px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      border: 1px solid #FFCC00;
+    }
+    .mtn-brand-card img {
+      height: 28px;
+      width: auto;
+      object-fit: contain;
+      background-color: white;
+      padding: 2px 4px;
+      border-radius: 6px;
+    }
+    .mtn-brand-card span {
+      color: #FFCC00;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+
+    /* MTN yellow circle with logo */
+    .bundle-icon {
+      background: #FFCC00;
+      border-radius: 50%;
+      width: 80px;
+      height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      border: 2px solid #2A9D8F;
       margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      overflow: hidden;
+      padding: 8px;
+    }
+    .bundle-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 50%;
+      background-color: white;
+      padding: 8px;
     }
 
     .bundle-info h4 {
-      font-size: 1.5rem;
-      font-weight: 700;
+      font-size: 1.7rem;
+      font-weight: 800;
       color: #0A2342;
-      line-height: 1.2;
-      margin-bottom: 4px;
     }
-
     .bundle-info p {
-      color: #2A9D8F;
-      font-weight: 700;
-      font-size: 1.2rem;
-      margin-bottom: 4px;
+      font-weight: 800;
+      font-size: 1.3rem;
+      color: #0A2342;
+      margin: 5px 0;
     }
-
-    .bundle-info p small {
-      font-weight: 400;
-      font-size: 0.8rem;
-      color: #3a546d;
-      display: block;
-      margin-top: 4px;
-    }
-
     .validity-badge {
       background: #E9F1F7;
       color: #0A2342;
       font-size: 0.7rem;
       font-weight: 600;
-      padding: 4px 8px;
+      padding: 5px 12px;
       border-radius: 30px;
+      margin-top: 8px;
       display: inline-block;
-      border: 1px solid #2A9D8F;
     }
 
-    /* phone input modal for bundle purchase */
+    /* modal */
     .bundle-modal {
       display: none;
       position: fixed;
@@ -271,765 +301,460 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       z-index: 1000;
       justify-content: center;
       align-items: center;
+      backdrop-filter: blur(4px);
     }
-
     .bundle-modal.active {
       display: flex;
     }
-
     .modal-content {
       background: white;
-      padding: 30px 24px;
-      border-radius: 38px;
+      padding: 28px 24px;
+      border-radius: 42px;
       max-width: 400px;
       width: 90%;
-      box-shadow: 0 20px 35px -8px rgba(0, 40, 60, 0.25);
-      border: 2px solid #2A9D8F;
+      box-shadow: 0 25px 40px -12px black;
+      border-top: 5px solid #FFCC00;
     }
-
-    .modal-content h3 {
-      color: #0A2342;
-      font-size: 1.5rem;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .modal-content h3 i {
-      color: #2A9D8F;
-    }
-
-    .modal-content p {
-      color: #3a546d;
-      margin-bottom: 20px;
-    }
-
     .modal-close {
       float: right;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       cursor: pointer;
-      color: #0A2342;
+      color: #888;
     }
 
-    .modal-close:hover {
-      color: #2A9D8F;
-    }
-
-    /* network selector in modal */
     .network-selector {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      gap: 12px;
+      margin: 15px 0;
       flex-wrap: wrap;
     }
-
     .network-option {
       flex: 1;
-      min-width: 80px;
       background: #f0f7fc;
       border: 2px solid #dde7f0;
-      border-radius: 50px;
-      padding: 10px 5px;
+      border-radius: 60px;
+      padding: 10px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 5px;
       cursor: pointer;
-      transition: 0.15s;
+      font-weight: 600;
     }
-
     .network-option.selected {
-      border-color: #2A9D8F;
-      background: #e0f2f0;
+      border-color: #FFCC00;
+      background: #fff8e0;
     }
-
-    .network-option img {
-      width: 30px;
-      height: 30px;
-      object-fit: contain;
-    }
-
     .network-option i {
       font-size: 1.5rem;
       color: #0A2342;
     }
 
-    .network-option span {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #0A2342;
-    }
-
-    /* airtime card */
-    .airtime-card {
-      background: #f0f7fc;
-      border-radius: 32px;
-      padding: 24px 20px;
-      border: 1px solid #cbd5e0;
-      margin-bottom: 24px;
-    }
-
-    .input-group {
-      margin-bottom: 22px;
-    }
-
-    .input-group label {
-      font-weight: 600;
-      color: #0A2342;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-      margin-bottom: 6px;
-    }
-    .input-group label i {
-      color: #2A9D8F;
-    }
-
     .input-field {
       width: 100%;
-      padding: 16px 18px;
+      padding: 14px 18px;
       border: 2px solid #dde7f0;
-      border-radius: 30px;
-      font-size: 1.1rem;
+      border-radius: 50px;
+      font-size: 1rem;
       outline: none;
-      transition: 0.15s;
-      background: white;
     }
     .input-field:focus {
-      border-color: #2A9D8F;
+      border-color: #FFCC00;
     }
-
-    .network-badge {
-      background: #2A9D8F;
-      color: white;
-      padding: 8px 16px;
-      border-radius: 60px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 16px;
-    }
-
     .pay-btn {
       background: #0A2342;
       width: 100%;
       border: none;
       color: white;
-      padding: 18px 20px;
-      font-size: 1.4rem;
-      font-weight: 700;
+      padding: 16px;
+      font-weight: 800;
+      font-size: 1.2rem;
       border-radius: 60px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
       cursor: pointer;
-      border: 2px solid #2A9D8F;
-      transition: 0.15s;
-      margin-top: 10px;
-    }
-
-    .pay-btn i {
-      color: #2A9D8F;
-    }
-
-    .pay-btn:hover {
-      background: #1e4f6e;
-      transform: scale(1.02);
-    }
-
-    .info-note {
-      font-size: 0.9rem;
-      color: #3a546d;
       margin-top: 16px;
+      border: 1px solid #FFCC00;
+      transition: 0.2s;
+    }
+    .pay-btn i {
+      color: #FFCC00;
+    }
+    .info-note {
+      font-size: 0.8rem;
+      color: #2c5a74;
       text-align: center;
-      border-top: 1px dashed #2A9D8F;
-      padding-top: 16px;
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid #dce5ec;
     }
 
-    .info-note i {
-      color: #2A9D8F;
+    @media (min-width: 640px) {
+      .app-container { max-width: 780px; }
+      .bundle-grid { grid-template-columns: repeat(4, 1fr); }
+      .bundle-info h4 { font-size: 1.3rem; }
+      .bundle-info p { font-size: 1rem; }
+      .bundle-icon { width: 70px; height: 70px; padding: 6px; }
     }
-
     .footer-note {
       text-align: center;
-      color: #6b7f94;
-      font-size: 0.85rem;
-      margin: 10px 0 8px;
-    }
-
-    /* small utility */
-    .mtn-label {
-      background: #2A9D8F;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 60px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    /* desktop adjustment for larger screens */
-    @media (min-width: 600px) {
-      .app-container {
-        max-width: 700px;
-      }
-      
-      .bundle-grid {
-        grid-template-columns: repeat(4, 1fr);
-      }
-      
-      .bundle-card {
-        padding: 14px 8px;
-      }
-      
-      .bundle-info h4 {
-        font-size: 1.2rem;
-      }
-      
-      .bundle-info p {
-        font-size: 1rem;
-      }
+      font-size: 0.75rem;
+      padding: 12px;
+      color: #2c5a74;
     }
   </style>
 </head>
 <body>
 
 <div class="app-container">
-  <!-- header with back navigation -->
   <div class="brand-header">
     <div class="back-nav">
       <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> back to networks</a>
     </div>
     <div class="business-name">
-      MTN bundles
-      <span>data & airtime · instant</span>
+      <img src="https://www.telecomschamber.org/wp-content/uploads/2023/11/New-mtn-logo.jpg" alt="MTN" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/MTN_Group_Logo.svg/1200px-MTN_Group_Logo.svg.png'">
+      <span>express bundles</span>
     </div>
     <div class="contact-row">
-      <div class="contact-item">
-        <i class="fas fa-phone-alt"></i>
-        <a href="tel:0547035105">0547035105</a>
-      </div>
-      <div class="contact-item">
-        <i class="fab fa-whatsapp"></i>
-        <a href="https://wa.me/233547035105" target="_blank">WhatsApp</a>
-      </div>
+      <div class="contact-item"><i class="fas fa-phone-alt"></i><a href="tel:0547035105">0547035105</a></div>
+      <div class="contact-item"><i class="fab fa-whatsapp"></i><a href="https://wa.me/233547035105" target="_blank">WhatsApp</a></div>
     </div>
   </div>
 
-  <!-- tabs: Data bundles / Airtime -->
   <div class="tab-bar">
     <button class="tab-btn active" id="tabDataBtn"><i class="fas fa-wifi"></i> Data bundles</button>
     <button class="tab-btn" id="tabAirtimeBtn"><i class="fas fa-phone-alt"></i> Airtime</button>
   </div>
 
-  <!-- DATA BUNDLES PANEL (1GB – 20GB) -->
   <div id="dataPanel" class="panel active-panel">
     <div class="section-title">
-      <i class="fas fa-layer-group"></i> MTN data packages
-      <span class="mtn-label">1GB to 20GB</span>
+      <i class="fas fa-tachometer-alt"></i> MTN data packages
+      <span class="mtn-label"><i class="fas fa-sim-card"></i> 1GB → 50GB</span>
     </div>
-    <div class="bundle-grid" id="bundleList">
-      <!-- dynamically generated via JS -->
+    <div class="bundle-grid" id="bundleList"></div>
+    <div class="info-note">
+      <i class="fas fa-mobile-alt"></i> Click any bundle → pay with MoMo (MTN, Telecel, AirtelTigo)
     </div>
-  
   </div>
 
-  <!-- AIRTIME PANEL (All Networks) -->
   <div id="airtimePanel" class="panel">
-    <div class="section-title">
-      <i class="fas fa-sim-card"></i> Buy Airtime
-    </div>
-    
-    <div class="airtime-card">
+    <div class="section-title"><i class="fas fa-coins"></i> Buy Airtime Any Network</div>
+    <div class="airtime-card" style="background:#f9fdfe; border-radius: 32px; padding: 16px;">
       <div class="input-group">
         <label><i class="fas fa-mobile-alt"></i> Phone number</label>
-        <input type="tel" id="phoneInput" class="input-field" placeholder="024xxxxxxx" value="0247035105">
-        <small style="color: #3a546d; margin-top: 4px; display: block;">MTN: 024,054,055,059,025 | Telecel: 020,050 | AirtelTigo: 026,056</small>
+        <input type="tel" id="phoneInput" class="input-field" placeholder="e.g. 0241234567" value="0247035105">
+        <small id="airtimePhoneHint" style="color:#0A2342;">MTN: 024/054/055/059/025 | Telecel: 020/050 | AirtelTigo: 026/056</small>
       </div>
       <div class="input-group">
         <label><i class="fas fa-coins"></i> Amount (GHS)</label>
-        <input type="number" id="amountInput" class="input-field" placeholder="e.g. 10" min="1" value="10">
+        <input type="number" id="amountInput" class="input-field" placeholder="min 1 GHS" min="1" value="10">
       </div>
-      
-      <!-- Network selection for airtime -->
-      <div style="margin-bottom: 20px;">
-        <label style="font-weight: 600; color: #0A2342; margin-bottom: 10px; display: block;">Select network:</label>
+      <div style="margin: 16px 0;">
+        <label style="font-weight:700;">Select network:</label>
         <div class="network-selector" id="airtimeNetworkSelector">
-          <div class="network-option selected" data-network="mtn" id="airtimeMtnOption">
-            <i class="fas fa-signal"></i>
-            <span>MTN</span>
-          </div>
-          <div class="network-option" data-network="telecel" id="airtimeTelecelOption">
-            <i class="fas fa-signal"></i>
-            <span>Telecel</span>
-          </div>
-          <div class="network-option" data-network="airteltigo" id="airtimeAirtelTigoOption">
-            <i class="fas fa-signal"></i>
-            <span>AirtelTigo</span>
-          </div>
+          <div class="network-option selected" data-network="mtn"><i class="fas fa-tower-cell"></i><span>MTN</span></div>
+          <div class="network-option" data-network="telecel"><i class="fas fa-broadcast-tower"></i><span>Telecel</span></div>
+          <div class="network-option" data-network="airteltigo"><i class="fas fa-wifi"></i><span>AirtelTigo</span></div>
         </div>
       </div>
-      
-      <!-- Airtime Payment Button -->
-      <button class="pay-btn" id="payAirtimeBtn">
-        <i class="fas fa-lock"></i> Pay with MoMo
-      </button>
-      
-      <!-- Payment info -->
-      <p style="margin-top: 16px; font-size: 0.85rem; background: #E9F1F7; padding: 8px; border-radius: 40px;">
-        <i class="fas fa-shield-alt" style="color:#2A9D8F;"></i> You'll receive a prompt on your phone to enter your MoMo PIN
-      </p>
-    </div>
-    <div class="info-note">
-      <i class="fas fa-exchange-alt"></i> After successful payment, airtime will be credited instantly to the phone number provided.
+      <button class="pay-btn" id="payAirtimeBtn"><i class="fas fa-lock"></i> Pay with Mobile Money</button>
+      <div class="info-note"><i class="fas fa-shield-alt"></i> Instant top-up after payment</div>
     </div>
   </div>
 
-  <!-- Phone Number Modal for Bundle Purchase (with network selection) -->
   <div class="bundle-modal" id="bundleModal">
     <div class="modal-content">
       <span class="modal-close" id="closeModal">&times;</span>
-      <h3><i class="fas fa-gift"></i> Complete Purchase</h3>
-      <p id="selectedBundleInfo">Selected bundle: <strong></strong></p>
-      
-      <!-- Network selection -->
-      <div style="margin-bottom: 20px;">
-        <label style="font-weight: 600; color: #0A2342; margin-bottom: 10px; display: block;">Select your network:</label>
-        <div class="network-selector" id="bundleNetworkSelector">
-          <div class="network-option selected" data-network="mtn" id="bundleMtnOption">
-            <i class="fas fa-signal"></i>
-            <span>MTN</span>
-          </div>
-          <div class="network-option" data-network="telecel" id="bundleTelecelOption">
-            <i class="fas fa-signal"></i>
-            <span>Telecel</span>
-          </div>
-          <div class="network-option" data-network="airteltigo" id="bundleAirtelTigoOption">
-            <i class="fas fa-signal"></i>
-            <span>AirtelTigo</span>
-          </div>
-        </div>
+      <h3><i class="fas fa-gift"></i> Complete data purchase</h3>
+      <p id="selectedBundleInfo"><strong></strong></p>
+      <div style="display:flex; align-items:center; gap:8px; background:#f0f4f8; border-radius:40px; padding:6px 12px; margin:10px 0;">
+        <img src="https://www.telecomschamber.org/wp-content/uploads/2023/11/New-mtn-logo.jpg" style="width:32px; height:auto; border-radius:6px; background-color: white; padding: 4px;" alt="MTN" onerror="this.src='https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/MTN_Group_Logo.svg/1200px-MTN_Group_Logo.svg.png'"> 
+        <span style="font-weight:bold; color:#0A2342;">MTN</span> <span style="color:#FFCC00;">⚡ fast data</span>
       </div>
-      
+      <div class="network-selector" id="bundleNetworkSelector">
+        <div class="network-option selected" data-network="mtn"><i class="fas fa-signal"></i><span>MTN</span></div>
+        <div class="network-option" data-network="telecel"><i class="fas fa-signal"></i><span>Telecel</span></div>
+        <div class="network-option" data-network="airteltigo"><i class="fas fa-signal"></i><span>AirtelTigo</span></div>
+      </div>
       <div class="input-group">
         <label><i class="fas fa-mobile-alt"></i> Your phone number</label>
-        <input type="tel" id="bundlePhone" class="input-field" placeholder="024xxxxxxx">
-        <small style="color: #3a546d; margin-top: 4px; display: block;" id="phoneHint">MTN: 024,054,055,059,025 | Telecel: 020,050 | AirtelTigo: 026,056</small>
+        <input type="tel" id="bundlePhone" class="input-field" placeholder="e.g. 024xxxxxxx">
+        <small id="bundlePhoneHint" style="color:#0A2342;">MTN: 024/054/055/059/025</small>
       </div>
-      
-      <button class="pay-btn" id="payBundleBtn">
-        <i class="fas fa-lock"></i> Pay with MoMo
-      </button>
+      <button class="pay-btn" id="payBundleBtn"><i class="fas fa-lock"></i> Pay with MoMo</button>
     </div>
   </div>
-
-  <!-- small footer -->
-  <div class="footer-note">
-    Sr. Samuel Data – MTN express
-  </div>
+  <div class="footer-note">Sr. Samuel Data – MTN Express | Instant Delivery</div>
 </div>
 
 <script>
   (function() {
-    // -------------------- DATA BUNDLES (1GB to 20GB) with realistic prices (GHS) --------------------
+    // ============================================================
+    // DATA BUNDLES - NON-EXPIRY VALIDITY, MTN BRANDING
+    // ============================================================
     const bundles = [
-      { size: "1GB", price: "0.10", validity: "7 days" },
-      { size: "2GB", price: "6.00", validity: "14 days" },
-      { size: "3GB", price: "9.00", validity: "21 days" },
-      { size: "4GB", price: "12.00", validity: "30 days" },
-      { size: "5GB", price: "15.00", validity: "30 days" },
-      { size: "6GB", price: "18.00", validity: "30 days" },
-      { size: "7GB", price: "20.00", validity: "30 days" },
-      { size: "8GB", price: "23.00", validity: "30 days" },
-      { size: "10GB", price: "28.00", validity: "30 days" },
-      { size: "12GB", price: "33.00", validity: "30 days" },
-      { size: "15GB", price: "40.00", validity: "30 days" },
-      { size: "20GB", price: "52.00", validity: "30 days" }
+      { size: "1GB", price: "6.00", validity: "Non-expiry" },
+      { size: "2GB", price: "11.00", validity: "Non-expiry" },
+      { size: "3GB", price: "15.00", validity: "Non-expiry" },
+      { size: "4GB", price: "17.50", validity: "Non-expiry" },
+      { size: "5GB", price: "22.00", validity: "Non-expiry" },
+      { size: "6GB", price: "25.50", validity: "Non-expiry" },
+      { size: "7GB", price: "30.50", validity: "Non-expiry" },
+      { size: "8GB", price: "35.50", validity: "Non-expiry" },
+      { size: "10GB", price: "42.00", validity: "Non-expiry" },
+      { size: "12GB", price: "48.50", validity: "Non-expiry" },
+      { size: "15GB", price: "60.00", validity: "Non-expiry" },
+      { size: "20GB", price: "80.00", validity: "Non-expiry" },
+      { size: "25GB", price: "100.00", validity: "Non-expiry" },
+      { size: "30GB", price: "120.00", validity: "Non-expiry" },
+      { size: "40GB", price: "180.00", validity: "Non-expiry" },
+      { size: "50GB", price: "230.00", validity: "Non-expiry" }
     ];
 
     const bundleContainer = document.getElementById('bundleList');
     const modal = document.getElementById('bundleModal');
     const closeModal = document.getElementById('closeModal');
-    const selectedBundleInfo = document.getElementById('selectedBundleInfo').querySelector('strong');
+    const selectedBundleInfoSpan = document.querySelector('#selectedBundleInfo strong');
     const bundlePhone = document.getElementById('bundlePhone');
     const payBundleBtn = document.getElementById('payBundleBtn');
-    const phoneHint = document.getElementById('phoneHint');
-    
-    // Network selection elements
+    const bundlePhoneHint = document.getElementById('bundlePhoneHint');
+
     const bundleNetworkOptions = document.querySelectorAll('#bundleNetworkSelector .network-option');
     const airtimeNetworkOptions = document.querySelectorAll('#airtimeNetworkSelector .network-option');
     
     let currentBundle = null;
-    let selectedBundleNetwork = 'mtn'; // Default
-    let selectedAirtimeNetwork = 'mtn'; // Default
+    let selectedBundleNetwork = 'mtn';
+    let selectedAirtimeNetwork = 'mtn';
 
-    // Network selection handlers for bundle modal
-    bundleNetworkOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        // Remove selected class from all options
-        bundleNetworkOptions.forEach(opt => opt.classList.remove('selected'));
-        // Add selected class to clicked option
-        option.classList.add('selected');
-        // Update selected network
-        selectedBundleNetwork = option.dataset.network;
-        // Update phone hint
-        updatePhoneHint(selectedBundleNetwork);
-        // Validate phone if already entered
-        if (bundlePhone.value.trim()) {
-          validatePhoneByNetwork(bundlePhone.value.trim(), selectedBundleNetwork);
-        }
-      });
-    });
+    const MTN_IMG_URL = "https://www.telecomschamber.org/wp-content/uploads/2023/11/New-mtn-logo.jpg";
+    const FALLBACK_IMG = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/MTN_Group_Logo.svg/1200px-MTN_Group_Logo.svg.png";
 
-    // Network selection handlers for airtime
-    airtimeNetworkOptions.forEach(option => {
-      option.addEventListener('click', () => {
-        airtimeNetworkOptions.forEach(opt => opt.classList.remove('selected'));
-        option.classList.add('selected');
-        selectedAirtimeNetwork = option.dataset.network;
-        // Validate phone if already entered
-        if (phoneInput.value.trim()) {
-          validatePhoneByNetwork(phoneInput.value.trim(), selectedAirtimeNetwork);
-        }
-      });
-    });
-
-    // Update phone hint based on selected network
-    function updatePhoneHint(network) {
-      if (network === 'mtn') {
-        phoneHint.textContent = 'MTN numbers: 024, 054, 055, 059, 025';
-      } else if (network === 'telecel') {
-        phoneHint.textContent = 'Telecel numbers: 020, 050';
-      } else if (network === 'airteltigo') {
-        phoneHint.textContent = 'AirtelTigo numbers: 026, 056';
-      }
+    function getImageWithFallback(url, fallback) {
+      return `<img src="${url}" alt="MTN" onerror="this.src='${fallback}'" style="background-color: white;">`;
     }
 
-    // Validate phone by network
-    function validatePhoneByNetwork(phone, network) {
-      const cleaned = phone.replace(/\D/g, '');
-      
-      if (network === 'mtn') {
-        return /^(024|054|055|059|025)\d{7}$/.test(cleaned);
-      } else if (network === 'telecel') {
-        return /^(020|050)\d{7}$/.test(cleaned);
-      } else if (network === 'airteltigo') {
-        return /^(026|056)\d{7}$/.test(cleaned);
-      }
-      return false;
+    function getMTNBrandBadge() {
+      return `<div class="mtn-brand-card">
+                ${getImageWithFallback(MTN_IMG_URL, FALLBACK_IMG)}
+                <span>DATA</span>
+              </div>`;
     }
 
-    // Get network provider string for Paystack
-    function getNetworkProvider(network) {
-      const providers = {
-        'mtn': 'mtn',
-        'telecel': 'telecel',
-        'airteltigo': 'airteltigo'
-      };
-      return providers[network] || 'mtn';
+    function getMTNIcon() {
+      return `<div class="bundle-icon">
+                ${getImageWithFallback(MTN_IMG_URL, FALLBACK_IMG)}
+              </div>`;
     }
 
-    if (bundleContainer) {
+    function renderBundles() {
+      bundleContainer.innerHTML = '';
       bundles.forEach(item => {
         const card = document.createElement('div');
         card.className = 'bundle-card';
-        card.setAttribute('data-bundle', `${item.size} - GHS ${item.price}`);
         card.setAttribute('data-price', item.price);
         card.setAttribute('data-size', item.size);
-        
-        // Create icon based on bundle size
-        let iconClass = 'fas fa-database';
-        if (item.size.includes('1GB') || item.size.includes('2GB')) iconClass = 'fas fa-leaf';
-        else if (item.size.includes('5GB')) iconClass = 'fas fa-bolt';
-        else if (item.size.includes('10GB')) iconClass = 'fas fa-gem';
-        else if (item.size.includes('20GB')) iconClass = 'fas fa-crown';
-        
         card.innerHTML = `
-          <div class="bundle-icon">
-            <i class="${iconClass}"></i>
-          </div>
+          ${getMTNBrandBadge()}
+          ${getMTNIcon()}
           <div class="bundle-info">
             <h4>${item.size}</h4>
             <p>GHS ${item.price}</p>
-            <span class="validity-badge">${item.validity}</span>
+            <span class="validity-badge"><i class="far fa-infinity"></i> ${item.validity}</span>
           </div>
         `;
-        
-        // click on bundle -> open payment modal
-        card.addEventListener('click', () => {
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
           currentBundle = item;
-          selectedBundleInfo.textContent = `${item.size} - GHS ${item.price}`;
+          selectedBundleInfoSpan.innerText = `${item.size} - GHS ${item.price} (${item.validity})`;
           modal.classList.add('active');
         });
-        
         bundleContainer.appendChild(card);
       });
     }
+    renderBundles();
 
-    // Close modal
-    closeModal.addEventListener('click', () => {
-      modal.classList.remove('active');
-      bundlePhone.value = '';
-    });
-
-    // Close modal when clicking outside
-    window.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove('active');
-        bundlePhone.value = '';
-      }
-    });
-
-    // -------------------- TAB SWITCHING --------------------
-    const tabData = document.getElementById('tabDataBtn');
-    const tabAirtime = document.getElementById('tabAirtimeBtn');
-    const panelData = document.getElementById('dataPanel');
-    const panelAirtime = document.getElementById('airtimePanel');
-
-    function setActiveTab(dataActive) {
-      if (dataActive) {
-        tabData.classList.add('active');
-        tabAirtime.classList.remove('active');
-        panelData.classList.add('active-panel');
-        panelAirtime.classList.remove('active-panel');
-      } else {
-        tabAirtime.classList.add('active');
-        tabData.classList.remove('active');
-        panelAirtime.classList.add('active-panel');
-        panelData.classList.remove('active-panel');
-      }
+    function validatePhoneByNetwork(phone, network) {
+      const cleaned = phone.replace(/\D/g, '');
+      if (network === 'mtn') return /^(024|054|055|059|025)\d{7}$/.test(cleaned);
+      if (network === 'telecel') return /^(020|050)\d{7}$/.test(cleaned);
+      if (network === 'airteltigo') return /^(026|056)\d{7}$/.test(cleaned);
+      return false;
     }
 
-    tabData.addEventListener('click', () => setActiveTab(true));
-    tabAirtime.addEventListener('click', () => setActiveTab(false));
+    function updateBundleHint(network) {
+      if (network === 'mtn') bundlePhoneHint.innerText = 'MTN numbers: 024,054,055,059,025';
+      else if (network === 'telecel') bundlePhoneHint.innerText = 'Telecel: 020,050';
+      else bundlePhoneHint.innerText = 'AirtelTigo: 026,056';
+    }
+    function updateAirtimeHint(network) {
+      const hintSpan = document.getElementById('airtimePhoneHint');
+      if (network === 'mtn') hintSpan.innerText = 'MTN: 024/054/055/059/025';
+      else if (network === 'telecel') hintSpan.innerText = 'Telecel: 020/050';
+      else hintSpan.innerText = 'AirtelTigo: 026/056';
+    }
 
-    // -------------------- PAYMENT CONFIGURATION --------------------
-    // 🔴 YOUR PAYSTACK KEYS
+    bundleNetworkOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        bundleNetworkOptions.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        selectedBundleNetwork = opt.dataset.network;
+        updateBundleHint(selectedBundleNetwork);
+        if (bundlePhone.value) {
+          validatePhoneByNetwork(bundlePhone.value, selectedBundleNetwork) ? bundlePhone.style.borderColor = '#FFCC00' : bundlePhone.style.borderColor = '#dc3545';
+        }
+      });
+    });
+
+    airtimeNetworkOptions.forEach(opt => {
+      opt.addEventListener('click', () => {
+        airtimeNetworkOptions.forEach(o => o.classList.remove('selected'));
+        opt.classList.add('selected');
+        selectedAirtimeNetwork = opt.dataset.network;
+        updateAirtimeHint(selectedAirtimeNetwork);
+        const phoneAirtime = document.getElementById('phoneInput');
+        if (phoneAirtime.value) {
+          validatePhoneByNetwork(phoneAirtime.value, selectedAirtimeNetwork) ? phoneAirtime.style.borderColor = '#FFCC00' : phoneAirtime.style.borderColor = '#dc3545';
+        }
+      });
+    });
+
+    // PAYSTACK CONFIGURATION - LIVE MODE WITH CORRECT EMAIL
     const PAYSTACK_CONFIG = {
-        PUBLIC_KEY: 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455', // Your live key
-        TEST_KEY: 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455', // Test key
-        IS_TEST_MODE: false, // Set to false for live
-        MERCHANT_EMAIL: 'srsamueldouseappiah@gmail.com', // Your email
-        MERCHANT_PHONE: '0547035105' // Your phone
+        PUBLIC_KEY: 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455',
+        IS_TEST_MODE: false,
+        MERCHANT_EMAIL: 'srsamueldouseappiah@gmail.com'
     };
 
-    // Helper function to notify merchant
-    function notifyMerchant(paymentDetails) {
-        console.log('🔔 New purchase notification:', paymentDetails);
-        // Paystack sends email automatically
-        alert(`✅ New purchase!\nNetwork: ${paymentDetails.network}\nCustomer: ${paymentDetails.phone}\nProduct: ${paymentDetails.product}\nAmount: GHS ${paymentDetails.amount}`);
+    function getNetworkProvider(network) {
+      const providers = { 'mtn': 'mtn', 'telecel': 'telecel', 'airteltigo': 'airteltigo' };
+      return providers[network] || 'mtn';
     }
 
-    // -------------------- BUNDLE PAYMENT HANDLER --------------------
+    // BUNDLE PAYMENT HANDLER - FIXED EMAIL
     payBundleBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        
-        if (!currentBundle) {
-            alert('Please select a bundle first');
-            return;
-        }
-        
+        if (!currentBundle) { alert('Please select a bundle first'); return; }
         const phone = bundlePhone.value.trim();
-        
-        if (!phone) {
-            alert('Please enter your phone number');
-            return;
-        }
-        
+        if (!phone) { alert('Please enter your phone number'); return; }
         if (!validatePhoneByNetwork(phone, selectedBundleNetwork)) {
-            const networkNames = {
-                'mtn': 'MTN',
-                'telecel': 'Telecel',
-                'airteltigo': 'AirtelTigo'
-            };
+            const networkNames = { 'mtn': 'MTN', 'telecel': 'Telecel', 'airteltigo': 'AirtelTigo' };
             alert(`Please enter a valid ${networkNames[selectedBundleNetwork]} phone number`);
             return;
         }
-        
         const amount = parseFloat(currentBundle.price);
-        const networkName = selectedBundleNetwork === 'mtn' ? 'MTN' : 
-                           selectedBundleNetwork === 'telecel' ? 'Telecel' : 'AirtelTigo';
+        const networkName = selectedBundleNetwork === 'mtn' ? 'MTN' : selectedBundleNetwork === 'telecel' ? 'Telecel' : 'AirtelTigo';
         
-        // Initialize Paystack payment
+        // ✅ FIXED: Using valid email format based on phone number
+        const customerEmail = `${phone.replace(/\D/g, '')}@mtn.mobile`;
+        
         const handler = PaystackPop.setup({
-            key: PAYSTACK_CONFIG.IS_TEST_MODE ? PAYSTACK_CONFIG.TEST_KEY : PAYSTACK_CONFIG.PUBLIC_KEY,
-            email: 'customer@example.com',
-            amount: amount * 100,
+            key: PAYSTACK_CONFIG.PUBLIC_KEY,
+            email: customerEmail,
+            amount: Math.round(amount * 100),
             currency: 'GHS',
-            ref: `${selectedBundleNetwork.toUpperCase()}-BDL-` + Math.floor(Math.random() * 1000000000 + 1),
+            ref: `MTN-${selectedBundleNetwork.toUpperCase()}-${Date.now()}-${Math.floor(Math.random()*10000)}`,
             channels: ['mobile_money'],
-            'mobile_money': {
-                phone: phone,
-                provider: getNetworkProvider(selectedBundleNetwork)
-            },
+            'mobile_money': { phone: phone, provider: getNetworkProvider(selectedBundleNetwork) },
             metadata: {
                 custom_fields: [
-                    {
-                        display_name: "Customer Phone",
-                        variable_name: "customer_phone",
-                        value: phone
-                    },
-                    {
-                        display_name: "Bundle",
-                        variable_name: "bundle",
-                        value: `${currentBundle.size} - ${currentBundle.validity}`
-                    },
-                    {
-                        display_name: "Network",
-                        variable_name: "network",
-                        value: networkName
-                    }
+                    { display_name: "Customer Phone", variable_name: "customer_phone", value: phone },
+                    { display_name: "Bundle", variable_name: "bundle", value: `${currentBundle.size} ${currentBundle.validity}` },
+                    { display_name: "Network", variable_name: "network", value: networkName }
                 ],
-                product: `${networkName} ${currentBundle.size} Data Bundle`,
-                customer_phone: phone,
-                bundle_size: currentBundle.size,
-                bundle_price: currentBundle.price,
-                bundle_validity: currentBundle.validity
+                product: `${networkName} Data Bundle ${currentBundle.size}`,
+                merchant_email: PAYSTACK_CONFIG.MERCHANT_EMAIL
             },
             callback: function(response) {
-                const paymentDetails = {
-                    reference: response.reference,
-                    amount: amount,
-                    phone: phone,
-                    product: `${networkName} ${currentBundle.size} Data Bundle`,
-                    network: networkName,
-                    timestamp: new Date().toISOString(),
-                    customer_phone: phone
-                };
-                
                 modal.classList.remove('active');
                 bundlePhone.value = '';
-                
-                alert(`✅ Payment successful!\n\nReference: ${response.reference}\nNetwork: ${networkName}\nBundle: ${currentBundle.size}\nAmount: GHS ${amount}\n\nYour data will be delivered to ${phone} within 5 minutes.`);
-                
-                notifyMerchant(paymentDetails);
-                console.log('📦 Deliver data:', paymentDetails);
+                alert(`✅ Payment successful! Ref: ${response.reference}\n${currentBundle.size} data (Non-expiry) will be delivered to ${phone} in 5 min.`);
+                console.log('📦 Deliver MTN data:', { reference: response.reference, amount, phone, product: `${currentBundle.size} Data` });
             },
-            onClose: function() {
-                console.log('Payment cancelled by user');
-            }
+            onClose: () => console.log('closed')
         });
-        
         handler.openIframe();
     });
 
-    // -------------------- AIRTIME PAYMENT HANDLER --------------------
+    // AIRTIME PAYMENT HANDLER - FIXED EMAIL
     const payAirtimeBtn = document.getElementById('payAirtimeBtn');
     const phoneInput = document.getElementById('phoneInput');
     const amountInput = document.getElementById('amountInput');
 
     payAirtimeBtn.addEventListener('click', (e) => {
         e.preventDefault();
-
         const phone = phoneInput.value.trim();
         const amount = parseFloat(amountInput.value);
-
-        if (!phone) {
-            alert('Please enter your phone number');
-            return;
-        }
-
+        if (!phone) { alert('Phone required'); return; }
         if (!validatePhoneByNetwork(phone, selectedAirtimeNetwork)) {
-            const networkNames = {
-                'mtn': 'MTN',
-                'telecel': 'Telecel',
-                'airteltigo': 'AirtelTigo'
-            };
+            const networkNames = { 'mtn': 'MTN', 'telecel': 'Telecel', 'airteltigo': 'AirtelTigo' };
             alert(`Please enter a valid ${networkNames[selectedAirtimeNetwork]} phone number`);
             return;
         }
-
-        if (isNaN(amount) || amount < 1) {
-            alert('Please enter a valid amount (minimum GHS 1)');
-            return;
-        }
-
-        const networkName = selectedAirtimeNetwork === 'mtn' ? 'MTN' : 
-                           selectedAirtimeNetwork === 'telecel' ? 'Telecel' : 'AirtelTigo';
-
+        if (isNaN(amount) || amount < 1) { alert('Amount min GHS 1'); return; }
+        const networkName = selectedAirtimeNetwork === 'mtn' ? 'MTN' : selectedAirtimeNetwork === 'telecel' ? 'Telecel' : 'AirtelTigo';
+        
+        // ✅ FIXED: Valid email format for airtime purchases
+        const customerEmail = `${phone.replace(/\D/g, '')}@airtime.mobile`;
+        
         const handler = PaystackPop.setup({
-            key: PAYSTACK_CONFIG.IS_TEST_MODE ? PAYSTACK_CONFIG.TEST_KEY : PAYSTACK_CONFIG.PUBLIC_KEY,
-            email: 'customer@example.com',
-            amount: amount * 100,
+            key: PAYSTACK_CONFIG.PUBLIC_KEY,
+            email: customerEmail,
+            amount: Math.round(amount * 100),
             currency: 'GHS',
-            ref: `${selectedAirtimeNetwork.toUpperCase()}-AIR-` + Math.floor(Math.random() * 1000000000 + 1),
+            ref: `AIR-${selectedAirtimeNetwork.toUpperCase()}-${Date.now()}-${Math.floor(Math.random()*10000)}`,
             channels: ['mobile_money'],
-            'mobile_money': {
-                phone: phone,
-                provider: getNetworkProvider(selectedAirtimeNetwork)
-            },
+            'mobile_money': { phone: phone, provider: getNetworkProvider(selectedAirtimeNetwork) },
             metadata: {
                 custom_fields: [
-                    {
-                        display_name: "Customer Phone",
-                        variable_name: "customer_phone",
-                        value: phone
-                    },
-                    {
-                        display_name: "Product Type",
-                        variable_name: "product_type",
-                        value: "Airtime"
-                    },
-                    {
-                        display_name: "Network",
-                        variable_name: "network",
-                        value: networkName
-                    }
+                    { display_name: "Phone", variable_name: "recipient", value: phone },
+                    { display_name: "Airtime Amount", variable_name: "airtime_ghs", value: amount },
+                    { display_name: "Network", variable_name: "operator", value: networkName }
                 ],
-                product: `${networkName} Airtime`,
-                customer_phone: phone,
-                airtime_amount: amount
+                merchant_email: PAYSTACK_CONFIG.MERCHANT_EMAIL
             },
             callback: function(response) {
-                const paymentDetails = {
-                    reference: response.reference,
-                    amount: amount,
-                    phone: phone,
-                    product: `${networkName} Airtime`,
-                    network: networkName,
-                    timestamp: new Date().toISOString(),
-                    customer_phone: phone
-                };
-                
-                alert(`✅ Airtime payment successful!\n\nReference: ${response.reference}\nNetwork: ${networkName}\nAmount: GHS ${amount}\nPhone: ${phone}\n\nAirtime will be credited within 2 minutes.`);
-                
-                notifyMerchant(paymentDetails);
-                console.log('📞 Deliver airtime:', paymentDetails);
-            },
-            onClose: function() {
-                console.log('Airtime payment cancelled');
+                alert(`✅ Airtime credited to ${phone} (${networkName}) | Ref: ${response.reference}`);
+                console.log('📞 Deliver airtime:', { reference: response.reference, amount, phone, network: networkName });
             }
         });
-        
         handler.openIframe();
     });
 
-    // Real-time phone validation
-    phoneInput.addEventListener('input', function(e) {
-        const isValid = validatePhoneByNetwork(e.target.value, selectedAirtimeNetwork);
-        if (e.target.value.length > 0) {
-            e.target.style.borderColor = isValid ? '#2A9D8F' : '#dc3545';
-        } else {
-            e.target.style.borderColor = '#dde7f0';
-        }
+    // Real-time validation
+    phoneInput.addEventListener('input', (e) => {
+      const ok = validatePhoneByNetwork(e.target.value, selectedAirtimeNetwork);
+      e.target.style.borderColor = ok ? '#FFCC00' : (e.target.value ? '#dc3545' : '#dde7f0');
+    });
+    bundlePhone.addEventListener('input', (e) => {
+      const ok = validatePhoneByNetwork(e.target.value, selectedBundleNetwork);
+      e.target.style.borderColor = ok ? '#FFCC00' : (e.target.value ? '#dc3545' : '#dde7f0');
     });
 
-    bundlePhone.addEventListener('input', function(e) {
-        const isValid = validatePhoneByNetwork(e.target.value, selectedBundleNetwork);
-        if (e.target.value.length > 0) {
-            e.target.style.borderColor = isValid ? '#2A9D8F' : '#dc3545';
-        } else {
-            e.target.style.borderColor = '#dde7f0';
-        }
-    });
+    // Tab switching
+    const tabData = document.getElementById('tabDataBtn');
+    const tabAirtime = document.getElementById('tabAirtimeBtn');
+    const panelData = document.getElementById('dataPanel');
+    const panelAirtime = document.getElementById('airtimePanel');
+    function setActiveTab(isData) {
+      if (isData) {
+        tabData.classList.add('active'); tabAirtime.classList.remove('active');
+        panelData.classList.add('active-panel'); panelAirtime.classList.remove('active-panel');
+      } else {
+        tabAirtime.classList.add('active'); tabData.classList.remove('active');
+        panelAirtime.classList.add('active-panel'); panelData.classList.remove('active-panel');
+      }
+    }
+    tabData.addEventListener('click', () => setActiveTab(true));
+    tabAirtime.addEventListener('click', () => setActiveTab(false));
 
+    closeModal.addEventListener('click', () => modal.classList.remove('active'));
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.classList.remove('active'); });
   })();
 </script>
 </body>
