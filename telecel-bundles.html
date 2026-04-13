@@ -500,22 +500,14 @@
     // DATA BUNDLES - NON-EXPIRY VALIDITY, TELECEL BRANDING
     // ============================================================
     const bundles = [
-      { size: "1GB", price: "6.00", validity: "Non-expiry" },
-      { size: "2GB", price: "11.00", validity: "Non-expiry" },
-      { size: "3GB", price: "15.00", validity: "Non-expiry" },
-      { size: "4GB", price: "17.50", validity: "Non-expiry" },
-      { size: "5GB", price: "22.00", validity: "Non-expiry" },
-      { size: "6GB", price: "25.50", validity: "Non-expiry" },
-      { size: "7GB", price: "30.50", validity: "Non-expiry" },
-      { size: "8GB", price: "35.50", validity: "Non-expiry" },
-      { size: "10GB", price: "42.00", validity: "Non-expiry" },
-      { size: "12GB", price: "48.50", validity: "Non-expiry" },
-      { size: "15GB", price: "60.00", validity: "Non-expiry" },
-      { size: "20GB", price: "80.00", validity: "Non-expiry" },
-      { size: "25GB", price: "100.00", validity: "Non-expiry" },
+
+      { size: "10GB", price: "45.50", validity: "Non-expiry" },
+      { size: "15GB", price: "65.50", validity: "Non-expiry" },
+      { size: "20GB", price: "85.50", validity: "Non-expiry" }
       { size: "30GB", price: "120.00", validity: "Non-expiry" },
-      { size: "40GB", price: "180.00", validity: "Non-expiry" },
-      { size: "50GB", price: "230.00", validity: "Non-expiry" }
+      { size: "40GB", price: "165.00", validity: "Non-expiry" },
+      { size: "50GB", price: "200.00", validity: "Non-expiry" }
+   { size: "100GB", price: "380.00", validity: "Non-expiry" }
     ];
 
     const bundleContainer = document.getElementById('bundleList');
@@ -671,7 +663,7 @@
             callback: function(response) {
                 modal.classList.remove('active');
                 bundlePhone.value = '';
-                alert(`✅ Payment successful! Ref: ${response.reference}\n${currentBundle.size} data (Non-expiry) will be delivered to ${phone} in 5 min.`);
+                alert(`✅ Payment successful! Ref: ${response.reference}\n${currentBundle.size} data (Non-expiry) will be delivered to ${phone} in 1 hour.`);
                 console.log('📦 Deliver Telecel data:', { reference: response.reference, amount, phone, product: `${currentBundle.size} Data` });
             },
             onClose: () => console.log('closed')
