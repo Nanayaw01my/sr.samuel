@@ -1,3 +1,5 @@
+Here is the complete HTML document with the AirtelTigo logo and brand colors applied to the price text and circular icon, with "incl. tax" removed.
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -258,25 +260,26 @@
       letter-spacing: 0.5px;
     }
 
-    /* AirtelTigo icon container - using the actual logo image */
+    /* AirtelTigo icon container - orange circle with the AirtelTigo logo inside */
     .bundle-icon {
-      background: #FF8C0015;
-      border-radius: 60px;
+      background: #FF8C00;  /* SOLID ORANGE CIRCLE - matches AirtelTigo brand */
+      border-radius: 50%;
       width: 80px;
       height: 80px;
       display: flex;
       align-items: center;
       justify-content: center;
       margin-bottom: 12px;
-      border: 2px solid #FF8C00;
+      box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
       overflow: hidden;
-      padding: 8px;
+      padding: 12px;
     }
     .bundle-icon img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      border-radius: 12px;
+      border-radius: 8px;
+      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
     }
 
     .bundle-info h4 {
@@ -288,14 +291,8 @@
     .bundle-info p {
       font-weight: 800;
       font-size: 1.3rem;
-      color: #FF8C00;
+      color: #FF8C00;  /* ORANGE PRICE TEXT - matches AirtelTigo brand */
       margin: 5px 0;
-    }
-    .bundle-info p small {
-      font-weight: 500;
-      font-size: 0.7rem;
-      color: #3a546d;
-      display: inline-block;
     }
     .validity-badge {
       background: #E9F1F7;
@@ -424,7 +421,7 @@
       .bundle-grid { grid-template-columns: repeat(4, 1fr); }
       .bundle-info h4 { font-size: 1.3rem; }
       .bundle-info p { font-size: 1rem; }
-      .bundle-icon { width: 70px; height: 70px; }
+      .bundle-icon { width: 70px; height: 70px; padding: 10px; }
     }
     .footer-note {
       text-align: center;
@@ -442,7 +439,7 @@
       <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> back to networks</a>
     </div>
     <div class="business-name">
-      <!-- REPLACED with actual AirtelTigo image -->
+      <!-- AirtelTigo image logo -->
       <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaejJ5nXaDEGFs4wkcg4ADqDEeuDPmBr4i_A&s" alt="AirtelTigo">
       <span>express bundles</span>
     </div>
@@ -457,7 +454,7 @@
     <button class="tab-btn" id="tabAirtimeBtn"><i class="fas fa-phone-alt"></i> Airtime</button>
   </div>
 
-  <!-- DATA PANEL - each card shows AirtelTigo branding with the actual logo image -->
+  <!-- DATA PANEL - each card shows AirtelTigo branding with orange circle and orange price -->
   <div id="dataPanel" class="panel active-panel">
     <div class="section-title">
       <i class="fas fa-tachometer-alt"></i> AirtelTigo data packages
@@ -523,7 +520,7 @@
 
 <script>
   (function() {
-    // ----- DATA BUNDLES (1GB to 20GB) - EACH CARD USES THE ACTUAL AIRTELTIGO LOGO IMAGE -----
+    // ----- DATA BUNDLES (1GB to 20GB) - NO "incl. tax" text, just clean pricing -----
     const bundles = [
       { size: "1GB", price: "3.00", validity: "7 days" },
       { size: "2GB", price: "5.50", validity: "14 days" },
@@ -566,7 +563,7 @@
               </div>`;
     }
 
-    // AirtelTigo icon on each card (same image, centered)
+    // AirtelTigo icon on each card - ORANGE CIRCLE (brand color) with logo inside
     function getAirtelIcon() {
       return `<div class="bundle-icon">
                 <img src="${AIRTELTIGO_IMG_URL}" alt="AirtelTigo">
@@ -579,13 +576,13 @@
         card.className = 'bundle-card';
         card.setAttribute('data-price', item.price);
         card.setAttribute('data-size', item.size);
-        // Each card shows AirtelTigo logo prominently — NO crowns, NO bolts, NO gems — just the real logo
+        // Each card shows AirtelTigo logo prominently — Orange circle + orange price text, NO "incl. tax"
         card.innerHTML = `
           ${getAirtelBrandBadge()}
           ${getAirtelIcon()}
           <div class="bundle-info">
             <h4>${item.size}</h4>
-            <p>GHS ${item.price} <small>incl. tax</small></p>
+            <p>GHS ${item.price}</p>
             <span class="validity-badge"><i class="far fa-clock"></i> ${item.validity}</span>
           </div>
         `;
@@ -762,3 +759,4 @@
 </script>
 </body>
 </html>
+```
