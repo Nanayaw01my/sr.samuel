@@ -1,4 +1,5 @@
-
+Here is the updated HTML document with the AirtelTigo logo image now displayed on a white background, along with the navy blue brand color scheme and "incl. tax" removed.
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,7 +38,7 @@
       transition: all 0.2s ease;
     }
 
-    /* header – navy with gold/orange accent line */
+    /* header – navy with gold accent line */
     .brand-header {
       background: linear-gradient(135deg, #0A2342 0%, #0d2f4e 100%);
       padding: 20px 24px 18px;
@@ -61,6 +62,8 @@
       filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
       object-fit: contain;
       border-radius: 8px;
+      background-color: white;
+      padding: 4px;
     }
     .business-name span {
       background: #FFB347;
@@ -234,7 +237,7 @@
       box-shadow: 0 20px 25px -12px rgba(10,35,66,0.25);
     }
 
-    /* AirtelTigo logo badge on each card - navy themed */
+    /* AirtelTigo logo badge on each card - navy themed with white background for logo */
     .airtel-brand-card {
       background: #0A2342;
       border-radius: 60px;
@@ -251,6 +254,8 @@
       width: auto;
       object-fit: contain;
       border-radius: 6px;
+      background-color: white;
+      padding: 2px 4px;
     }
     .airtel-brand-card span {
       color: #FFB347;
@@ -259,9 +264,9 @@
       letter-spacing: 0.5px;
     }
 
-    /* AirtelTigo icon container - NAVY BLUE circle (brand color) with logo inside */
+    /* AirtelTigo icon container - NAVY BLUE circle with white background logo */
     .bundle-icon {
-      background: #0A2342;  /* NAVY BLUE CIRCLE - matches AirtelTigo primary brand color */
+      background: #0A2342;
       border-radius: 50%;
       width: 80px;
       height: 80px;
@@ -271,14 +276,15 @@
       margin-bottom: 12px;
       box-shadow: 0 4px 12px rgba(10, 35, 66, 0.3);
       overflow: hidden;
-      padding: 12px;
+      padding: 8px;
     }
     .bundle-icon img {
       width: 100%;
       height: 100%;
       object-fit: contain;
-      border-radius: 8px;
-      filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+      border-radius: 50%;
+      background-color: white;
+      padding: 8px;
     }
 
     .bundle-info h4 {
@@ -290,7 +296,7 @@
     .bundle-info p {
       font-weight: 800;
       font-size: 1.3rem;
-      color: #0A2342;  /* NAVY BLUE PRICE TEXT - matches brand color */
+      color: #0A2342;
       margin: 5px 0;
     }
     .validity-badge {
@@ -341,6 +347,11 @@
       font-size: 1.8rem;
       cursor: pointer;
       color: #888;
+    }
+    .modal-content img {
+      background-color: white;
+      border-radius: 8px;
+      padding: 4px;
     }
 
     /* network selector */
@@ -420,7 +431,7 @@
       .bundle-grid { grid-template-columns: repeat(4, 1fr); }
       .bundle-info h4 { font-size: 1.3rem; }
       .bundle-info p { font-size: 1rem; }
-      .bundle-icon { width: 70px; height: 70px; padding: 10px; }
+      .bundle-icon { width: 70px; height: 70px; padding: 6px; }
     }
     .footer-note {
       text-align: center;
@@ -438,8 +449,8 @@
       <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> back to networks</a>
     </div>
     <div class="business-name">
-      <!-- AirtelTigo image logo -->
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaejJ5nXaDEGFs4wkcg4ADqDEeuDPmBr4i_A&s" alt="AirtelTigo">
+      <!-- AirtelTigo image logo with white background -->
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaejJ5nXaDEGFs4wkcg4ADqDEeuDPmBr4i_A&s" alt="AirtelTigo" style="background-color: white; padding: 4px; border-radius: 8px;">
       <span>express bundles</span>
     </div>
     <div class="contact-row">
@@ -453,7 +464,7 @@
     <button class="tab-btn" id="tabAirtimeBtn"><i class="fas fa-phone-alt"></i> Airtime</button>
   </div>
 
-  <!-- DATA PANEL - each card shows AirtelTigo branding with NAVY circle and NAVY price -->
+  <!-- DATA PANEL -->
   <div id="dataPanel" class="panel active-panel">
     <div class="section-title">
       <i class="fas fa-tachometer-alt"></i> AirtelTigo data packages
@@ -498,7 +509,7 @@
       <h3><i class="fas fa-gift"></i> Complete data purchase</h3>
       <p id="selectedBundleInfo"><strong></strong></p>
       <div style="display:flex; align-items:center; gap:8px; background:#f0f4f8; border-radius:40px; padding:6px 12px; margin:10px 0;">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaejJ5nXaDEGFs4wkcg4ADqDEeuDPmBr4i_A&s" style="width:28px; height:auto; border-radius:4px;" alt="AirtelTigo"> 
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaejJ5nXaDEGFs4wkcg4ADqDEeuDPmBr4i_A&s" style="width:32px; height:auto; border-radius:6px; background-color: white; padding: 4px;" alt="AirtelTigo"> 
         <span style="font-weight:bold; color:#0A2342;">AirtelTigo</span> <span style="color:#0A2342;">⚡ fast data</span>
       </div>
       <div class="network-selector" id="bundleNetworkSelector">
@@ -519,7 +530,7 @@
 
 <script>
   (function() {
-    // ----- DATA BUNDLES (1GB to 20GB) - NO "incl. tax" text, clean pricing, NAVY brand colors -----
+    // DATA BUNDLES - no "incl. tax" text
     const bundles = [
       { size: "1GB", price: "3.00", validity: "7 days" },
       { size: "2GB", price: "5.50", validity: "14 days" },
@@ -543,7 +554,6 @@
     const payBundleBtn = document.getElementById('payBundleBtn');
     const bundlePhoneHint = document.getElementById('bundlePhoneHint');
 
-    // network selectors
     const bundleNetworkOptions = document.querySelectorAll('#bundleNetworkSelector .network-option');
     const airtimeNetworkOptions = document.querySelectorAll('#airtimeNetworkSelector .network-option');
     
@@ -551,21 +561,20 @@
     let selectedBundleNetwork = 'airteltigo';
     let selectedAirtimeNetwork = 'airteltigo';
 
-    // The official AirtelTigo image URL
     const AIRTELTIGO_IMG_URL = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRaejJ5nXaDEGFs4wkcg4ADqDEeuDPmBr4i_A&s";
 
-    // AirtelTigo brand badge on each card using the actual image
+    // Badge with white background for logo
     function getAirtelBrandBadge() {
       return `<div class="airtel-brand-card">
-                <img src="${AIRTELTIGO_IMG_URL}" alt="AirtelTigo">
+                <img src="${AIRTELTIGO_IMG_URL}" alt="AirtelTigo" style="background-color: white; padding: 2px 4px;">
                 <span>DATA</span>
               </div>`;
     }
 
-    // AirtelTigo icon on each card - NAVY BLUE CIRCLE (brand primary color) with logo inside
+    // Navy circle with white background logo
     function getAirtelIcon() {
       return `<div class="bundle-icon">
-                <img src="${AIRTELTIGO_IMG_URL}" alt="AirtelTigo">
+                <img src="${AIRTELTIGO_IMG_URL}" alt="AirtelTigo" style="background-color: white;">
               </div>`;
     }
 
@@ -575,7 +584,6 @@
         card.className = 'bundle-card';
         card.setAttribute('data-price', item.price);
         card.setAttribute('data-size', item.size);
-        // Each card shows AirtelTigo logo prominently — Navy circle + navy price text, NO "incl. tax"
         card.innerHTML = `
           ${getAirtelBrandBadge()}
           ${getAirtelIcon()}
@@ -596,7 +604,6 @@
     }
     renderBundles();
 
-    // phone validation per network
     function validatePhoneByNetwork(phone, network) {
       const cleaned = phone.replace(/\D/g, '');
       if (network === 'mtn') return /^(024|054|055|059|025)\d{7}$/.test(cleaned);
@@ -638,14 +645,12 @@
       });
     });
 
-    // PAYSTACK CONFIGURATION (LIVE KEY)
     const PAYSTACK_LIVE_KEY = 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455';
     function notifyMerchant(details) {
       console.log('🔔 Notify merchant:', details);
       alert(`✅ New purchase!\nNetwork: ${details.network}\nCustomer: ${details.phone}\nProduct: ${details.product}\nAmount: GHS ${details.amount}\nRef: ${details.reference}`);
     }
 
-    // Bundle payment
     payBundleBtn.addEventListener('click', (e) => {
       e.preventDefault();
       if (!currentBundle) { alert('Select a bundle'); return; }
@@ -686,7 +691,6 @@
       handler.openIframe();
     });
 
-    // Airtime Payment
     const payAirtimeBtn = document.getElementById('payAirtimeBtn');
     const phoneInput = document.getElementById('phoneInput');
     const amountInput = document.getElementById('amountInput');
@@ -725,7 +729,6 @@
       handler.openIframe();
     });
 
-    // input validators
     phoneInput.addEventListener('input', (e) => {
       const ok = validatePhoneByNetwork(e.target.value, selectedAirtimeNetwork);
       e.target.style.borderColor = ok ? '#0A2342' : (e.target.value ? '#dc3545' : '#dde7f0');
@@ -735,7 +738,6 @@
       e.target.style.borderColor = ok ? '#0A2342' : (e.target.value ? '#dc3545' : '#dde7f0');
     });
 
-    // tab switching
     const tabData = document.getElementById('tabDataBtn');
     const tabAirtime = document.getElementById('tabAirtimeBtn');
     const panelData = document.getElementById('dataPanel');
