@@ -4,21 +4,23 @@
 // All payments routed through Paystack
 // ============================================
 
-// Paystack Configuration
+// Paystack Configuration - FIXED FOR LIVE MODE
 const PAYSTACK_CONFIG = {
-    // 🔴 REPLACE WITH YOUR ACTUAL LIVE KEY
-    LIVE_KEY: 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455', // Replace with your key
-    TEST_KEY: 'pk_test_8d8b9e8c6d9c4b2a1f3d5e7a9c0b2a4f6e8d1a3c', // Test key for development
+    // 🔴 YOUR LIVE PAYSTACK KEY (keep as is)
+    LIVE_KEY: 'pk_live_34c8f1712d1b93f5611568d8b9fd50db94dab455',
     
-    // Set to false for live, true for test mode
-    IS_TEST_MODE: true,
+    // Test key (not used in live mode)
+    TEST_KEY: 'pk_test_8d8b9e8c6d9c4b2a1f3d5e7a9c0b2a4f6e8d1a3c',
     
-    // Business details
+    // ✅ FIXED: Set to false for LIVE MODE (enables email notifications)
+    IS_TEST_MODE: false,
+    
+    // ✅ FIXED: Your correct email for notifications
     BUSINESS_NAME: 'Sr. Samuel Data',
-    BUSINESS_EMAIL: 'payments@samueldata.com',
+    BUSINESS_EMAIL: 'srsamueldouseappiah@gmail.com',
     
     // Callback URLs (optional - for server-side verification)
-    CALLBACK_URL: 'https://yourdomain.com/payment-callback',
+    CALLBACK_URL: '',
     
     // MoMo specific channels
     MOMO_CHANNELS: {
@@ -70,17 +72,17 @@ class MoMoPaymentHandler {
 
         // Validate MTN phone number (starts with 024, 054, 055, 059, 025)
         if (!this.validateMTNPhone(phone)) {
-            this.showError('Please enter a valid MTN phone number');
+            this.showError('Please enter a valid MTN phone number (024, 054, 055, 059, 025)');
             return;
         }
 
         const paymentParams = {
             key: this.getPaystackKey(),
             email: email,
-            amount: amount * 100, // Convert to pesewas
+            amount: Math.round(amount * 100), // Convert to pesewas
             currency: 'GHS',
             ref: reference,
-            channels: ['mobile_money'], // Restrict to mobile money
+            channels: ['mobile_money'],
             'mobile_money': {
                 phone: phone,
                 provider: 'mtn'
@@ -90,7 +92,8 @@ class MoMoPaymentHandler {
                 network: 'MTN',
                 payment_method: 'mtn_momo',
                 phone_number: phone,
-                business: PAYSTACK_CONFIG.BUSINESS_NAME
+                business: PAYSTACK_CONFIG.BUSINESS_NAME,
+                merchant_email: PAYSTACK_CONFIG.BUSINESS_EMAIL
             },
             callback: (response) => {
                 this.handleSuccess(response, {
@@ -124,27 +127,28 @@ class MoMoPaymentHandler {
 
         // Validate Telecel phone number (starts with 020, 050)
         if (!this.validateTelecelPhone(phone)) {
-            this.showError('Please enter a valid Telecel phone number');
+            this.showError('Please enter a valid Telecel phone number (020, 050)');
             return;
         }
 
         const paymentParams = {
             key: this.getPaystackKey(),
             email: email,
-            amount: amount * 100,
+            amount: Math.round(amount * 100),
             currency: 'GHS',
             ref: reference,
             channels: ['mobile_money'],
             'mobile_money': {
                 phone: phone,
-                provider: 'telecel' // Paystack uses 'telecel' as provider
+                provider: 'telecel'
             },
             metadata: {
                 ...metadata,
                 network: 'Telecel',
                 payment_method: 'telecel_momo',
                 phone_number: phone,
-                business: PAYSTACK_CONFIG.BUSINESS_NAME
+                business: PAYSTACK_CONFIG.BUSINESS_NAME,
+                merchant_email: PAYSTACK_CONFIG.BUSINESS_EMAIL
             },
             callback: (response) => {
                 this.handleSuccess(response, {
@@ -178,27 +182,28 @@ class MoMoPaymentHandler {
 
         // Validate AirtelTigo phone number (starts with 026, 056)
         if (!this.validateAirtelTigoPhone(phone)) {
-            this.showError('Please enter a valid AirtelTigo phone number');
+            this.showError('Please enter a valid AirtelTigo phone number (026, 056)');
             return;
         }
 
         const paymentParams = {
             key: this.getPaystackKey(),
             email: email,
-            amount: amount * 100,
+            amount: Math.round(amount * 100),
             currency: 'GHS',
             ref: reference,
             channels: ['mobile_money'],
             'mobile_money': {
                 phone: phone,
-                provider: 'airteltigo' // Paystack uses 'airteltigo' as provider
+                provider: 'airteltigo'
             },
             metadata: {
                 ...metadata,
                 network: 'AirtelTigo',
                 payment_method: 'airteltigo_momo',
                 phone_number: phone,
-                business: PAYSTACK_CONFIG.BUSINESS_NAME
+                business: PAYSTACK_CONFIG.BUSINESS_NAME,
+                merchant_email: PAYSTACK_CONFIG.BUSINESS_EMAIL
             },
             callback: (response) => {
                 this.handleSuccess(response, {
@@ -226,7 +231,7 @@ class MoMoPaymentHandler {
         const network = this.detectNetwork(phone);
         
         if (!network) {
-            this.showError('Could not detect network from phone number');
+            this.showError('Could not detect network from phone number. Use MTN (024/054/055/059/025), Telecel (020/050), or AirtelTigo (026/056)');
             return;
         }
 
@@ -299,7 +304,7 @@ class MoMoPaymentHandler {
             this.currentPayment = params;
         } catch (error) {
             console.error('Payment processing error:', error);
-            this.showError('Failed to initialize payment');
+            this.showError('Failed to initialize payment. Please try again.');
         }
     }
 
@@ -317,7 +322,7 @@ class MoMoPaymentHandler {
         this.savePaymentHistory();
 
         // Show success message
-        this.showSuccess(`Payment successful! Reference: ${response.reference}`);
+        this.showSuccess(`Payment successful! Reference: ${response.reference}\nAmount: GHS ${paymentDetails.amount}\nNetwork: ${paymentDetails.network}\nPhone: ${paymentDetails.phone}`);
 
         // Call custom callback if provided
         if (callback && typeof callback === 'function') {
@@ -410,7 +415,12 @@ function setupMTNMoMoButton(buttonId, amountInputId, phoneInputId) {
         const phone = document.getElementById(phoneInputId)?.value.trim();
         
         if (!amount || amount < 1) {
-            momoHandler.showError('Please enter a valid amount');
+            momoHandler.showError('Please enter a valid amount (minimum GHS 1)');
+            return;
+        }
+        
+        if (!phone) {
+            momoHandler.showError('Please enter your phone number');
             return;
         }
 
@@ -419,11 +429,11 @@ function setupMTNMoMoButton(buttonId, amountInputId, phoneInputId) {
             phone: phone,
             metadata: {
                 product: 'Data Bundle',
-                source: 'web_app'
+                source: 'web_app',
+                timestamp: new Date().toISOString()
             },
             onSuccess: (response, details) => {
                 console.log('MTN MoMo payment successful', details);
-                // Update UI or trigger next steps
                 document.dispatchEvent(new CustomEvent('mtnPaymentSuccess', { 
                     detail: details 
                 }));
@@ -447,7 +457,12 @@ function setupTelecelMoMoButton(buttonId, amountInputId, phoneInputId) {
         const phone = document.getElementById(phoneInputId)?.value.trim();
         
         if (!amount || amount < 1) {
-            momoHandler.showError('Please enter a valid amount');
+            momoHandler.showError('Please enter a valid amount (minimum GHS 1)');
+            return;
+        }
+        
+        if (!phone) {
+            momoHandler.showError('Please enter your phone number');
             return;
         }
 
@@ -456,7 +471,8 @@ function setupTelecelMoMoButton(buttonId, amountInputId, phoneInputId) {
             phone: phone,
             metadata: {
                 product: 'Data Bundle',
-                source: 'web_app'
+                source: 'web_app',
+                timestamp: new Date().toISOString()
             },
             onSuccess: (response, details) => {
                 console.log('Telecel MoMo payment successful', details);
@@ -480,7 +496,12 @@ function setupAirtelTigoMoMoButton(buttonId, amountInputId, phoneInputId) {
         const phone = document.getElementById(phoneInputId)?.value.trim();
         
         if (!amount || amount < 1) {
-            momoHandler.showError('Please enter a valid amount');
+            momoHandler.showError('Please enter a valid amount (minimum GHS 1)');
+            return;
+        }
+        
+        if (!phone) {
+            momoHandler.showError('Please enter your phone number');
             return;
         }
 
@@ -489,7 +510,8 @@ function setupAirtelTigoMoMoButton(buttonId, amountInputId, phoneInputId) {
             phone: phone,
             metadata: {
                 product: 'Data Bundle',
-                source: 'web_app'
+                source: 'web_app',
+                timestamp: new Date().toISOString()
             },
             onSuccess: (response, details) => {
                 console.log('AirtelTigo MoMo payment successful', details);
@@ -513,7 +535,7 @@ function setupUniversalMoMoButton(buttonId, amountInputId, phoneInputId) {
         const phone = document.getElementById(phoneInputId)?.value.trim();
         
         if (!amount || amount < 1) {
-            momoHandler.showError('Please enter a valid amount');
+            momoHandler.showError('Please enter a valid amount (minimum GHS 1)');
             return;
         }
 
@@ -527,7 +549,8 @@ function setupUniversalMoMoButton(buttonId, amountInputId, phoneInputId) {
             phone: phone,
             metadata: {
                 product: 'Data Bundle',
-                source: 'web_app'
+                source: 'web_app',
+                timestamp: new Date().toISOString()
             },
             onSuccess: (response, details) => {
                 console.log(`${details.network} MoMo payment successful`, details);
@@ -535,49 +558,6 @@ function setupUniversalMoMoButton(buttonId, amountInputId, phoneInputId) {
         });
     });
 }
-
-// ============================================
-// USAGE EXAMPLES FOR YOUR HTML FILES
-// ============================================
-
-/*
-// In mtn-bundles.html:
-<script src="momo-payment.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        setupMTNMoMoButton('payAirtimeBtn', 'amountInput', 'phoneInput');
-        
-        // Listen for successful payments
-        document.addEventListener('mtnPaymentSuccess', (e) => {
-            const { network, amount, phone, reference } = e.detail;
-            // Send airtime or data bundle
-            console.log(`Credit ${amount} GHS to ${phone}`);
-        });
-    });
-</script>
-
-// In airteltigo-bundles.html:
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        setupAirtelTigoMoMoButton('payAirtimeBtn', 'amountInput', 'phoneInput');
-    });
-</script>
-
-// In telecel-bundles.html:
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        setupTelecelMoMoButton('payAirtimeBtn', 'amountInput', 'phoneInput');
-    });
-</script>
-
-// For checker.html (universal payment):
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        setupUniversalMoMoButton('payBECEBtn', 'beceQuantity', 'becePhone');
-        setupUniversalMoMoButton('payWASCEBtn', 'wasceQuantity', 'wascePhone');
-    });
-</script>
-*/
 
 // ============================================
 // PAYMENT VERIFICATION FUNCTION (optional)
@@ -613,6 +593,7 @@ if (typeof module !== 'undefined' && module.exports) {
         setupTelecelMoMoButton,
         setupAirtelTigoMoMoButton,
         setupUniversalMoMoButton,
-        verifyPayment
+        verifyPayment,
+        PAYSTACK_CONFIG
     };
 }
